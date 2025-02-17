@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="../assets/css/profile.css">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="edit-profile-form">
+            <h2>Edit Profile</h2>
+            <form id="editProfileForm" action="../scripts/update-profile.php" method="POST">
+                <input type="text" name="firstName" placeholder="First Name" required>
+                <input type="text" name="lastName" placeholder="Last Name" required>
+                <textarea name="bio" placeholder="Bio"></textarea>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

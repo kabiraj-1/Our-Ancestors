@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Ancestors - Social Media Interface</title>
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="main-heading">Our Ancestors<br>(हाम्रा पुर्खाहरू)</h1>
+            <div class="creator-info">Created by Kabi Raj Bhatt</div>
+        </header>
+
+        <div class="welcome-note">
+            <h2>Welcome to Our Ancestors Community!</h2>
+            <p>Connect with your roots, share ancestral stories, and preserve cultural heritage through generations.</p>
+        </div>
+
+        <div class="button-container">
+            <a href="/auth/login.html" class="action-button">Login</a>
+            <a href="/auth/register.html" class="action-button">Sign Up</a>
+        </div>
+
+        <div class="forgot-password">
+            <h3>Forgot Password?</h3>
+            <form id="resetForm">
+                <input type="email" id="resetEmail" placeholder="Enter your registered email" required>
+                <button type="submit" class="contact-button">Send Reset Link</button>
+            </form>
+        </div>
+
+        <div class="contact-section">
+            <button class="contact-button" onclick="toggleContact()">Contact Us</button>
+            <div id="contact-info">
+                <p>Email: bhattkabiraj255@gmail.com</p>
+                <p>WhatsApp: +977 9847546823</p>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>© 2025 Our Ancestors. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="js/landing.js"></script>
+</body>
+</html>
