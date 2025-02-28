@@ -1,0 +1,155 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #222;
+      color: white;
+      text-align: center;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .gallery img {
+      width: 150px;
+      height: 100px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      object-fit: cover;
+    }
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black; /* solid black background */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+    }
+    .overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .controls button,
+    .controls a {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .controls button:hover,
+    .controls a:hover {
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Photo Gallery</h1>
+  <div class="gallery" id="gallery">
+    <!-- Images will be inserted here by JavaScript -->
+  </div>
+  <div class="overlay" id="overlay">
+    <span class="close-btn" onclick="closeOverlay()">&times;</span>
+    <img id="full-image" src="" alt="Full Size Image" />
+    <div class="controls">
+      <!-- Back button for the previous photo -->
+      <button id="back-btn" onclick="prevPhoto()">Back</button>
+      <!-- Next button for the next photo -->
+      <button id="next-btn" onclick="nextPhoto()">Next</button>
+      <!-- Download link for saving the current photo -->
+      <a id="download-btn" href="#" download>Download</a>
+    </div>
+  </div>
+
+  <script>
+    const totalPhotos = 77;
+    let currentIndex = 0;
+    const gallery = document.getElementById("gallery");
+    const overlay = document.getElementById("overlay");
+    const fullImage = document.getElementById("full-image");
+    const downloadBtn = document.getElementById("download-btn");
+
+    // Dynamically create image elements for kabiraj (1).jpg to kabiraj (77).jpg
+    for (let i = 1; i <= totalPhotos; i++) {
+      const img = document.createElement("img");
+      // Use encodeURI to properly handle spaces and parentheses in the filename
+      img.src = encodeURI(`kabiraj (${i}).jpg`);
+      img.alt = `Photo ${i}`;
+      img.onclick = function () {
+        openOverlay(this.src, i);
+      };
+      gallery.appendChild(img);
+    }
+
+    // Open overlay and display the clicked image
+    function openOverlay(src, index) {
+      currentIndex = index;
+      fullImage.src = src;
+      updateDownloadLink();
+      overlay.style.display = "flex";
+    }
+
+    // Update the download link with the current image
+    function updateDownloadLink() {
+      downloadBtn.href = fullImage.src;
+      downloadBtn.setAttribute("download", `kabiraj (${currentIndex}).jpg`);
+    }
+
+    // Close the overlay
+    function closeOverlay() {
+      overlay.style.display = "none";
+    }
+
+    // Show the next photo in the overlay
+    function nextPhoto() {
+      // Move to the next photo (wrap around to 1 when reaching the end)
+      currentIndex = currentIndex < totalPhotos ? currentIndex + 1 : 1;
+      fullImage.src = encodeURI(`kabiraj (${currentIndex}).jpg`);
+      updateDownloadLink();
+    }
+
+    // Show the previous photo in the overlay
+    function prevPhoto() {
+      // Move to the previous photo (wrap around to the last when at the first)
+      currentIndex = currentIndex > 1 ? currentIndex - 1 : totalPhotos;
+      fullImage.src = encodeURI(`kabiraj (${currentIndex}).jpg`);
+      updateDownloadLink();
+    }
+  </script>
+</body>

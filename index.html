@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KABI RAJ BHATT</title>
+    <link rel="stylesheet" href="stylesmain.css">
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="content">
+        <h1>KABI RAJ BHATT</h1>
+        <h2 id="age">Calculating...</h2>
+        <div id="time"></div>
+        <div class="slogan">एक सकारात्मक सोच तपाईको जीवन बदल्न सक्छ।</div>
+        <button class="enter-btn" onclick="enterSite()">Enter</button>
+        <button class="socialmedia-btn" onclick="socialmediaSite()">Our Ancestors</button>
+        <button class="photo-btn" onclick="goToPhotoPage()">View Photo Gallery</button>
+        <button class="back-btn" onclick="goBack()">Back to Home</button>
+    </div>
+
+    <script>
+        // Real-Time Clock
+        function updateTime() {
+            let now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById("time").innerText = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateTime, 1000);
+
+        // Age Calculator
+        function calculateAge(birthDate) {
+            let now = new Date();
+            let birth = new Date(birthDate);
+
+            let years = now.getFullYear() - birth.getFullYear();
+            let months = now.getMonth() - birth.getMonth();
+            let days = now.getDate() - birth.getDate();
+            let hours = now.getHours() - birth.getHours();
+            let minutes = now.getMinutes() - birth.getMinutes();
+            let seconds = now.getSeconds() - birth.getSeconds();
+
+            if (seconds < 0) {
+                seconds += 60;
+                minutes -= 1;
+            }
+            if (minutes < 0) {
+                minutes += 60;
+                hours -= 1;
+            }
+            if (hours < 0) {
+                hours += 24;
+                days -= 1;
+            }
+            if (days < 0) {
+                months -= 1;
+                let lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += lastMonth.getDate();
+            }
+            if (months < 0) {
+                months += 12;
+                years -= 1;
+            }
+
+            document.getElementById("age").innerText = `Age: ${years} years, ${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        }
+        setInterval(() => calculateAge("1997-03-17T04:00:00"), 1000);
+
+        // Navigation Functions
+        function enterSite() {
+            window.location.href = "krb wrb.html";
+        }
+
+        function socialmediaSite() {
+            window.location.href = "our ancestors/client/index.html"; // Updated to point to the "our ancestors" folder
+        }
+
+        function goToPhotoPage() {
+            window.location.href = "photos.html"; 
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
