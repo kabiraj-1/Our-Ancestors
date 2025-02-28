@@ -1,0 +1,87 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('../kabiraj (13).jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3em;
+    margin: 0;
+    color: skyblue;
+}
+
+h2 {
+    font-size: 2em;
+    margin: 10px 0;
+    color: yellow;
+}
+
+#age {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: gold;
+}
+
+#time {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: gold;
+}
+
+.slogan {
+    font-size: 1.5em;
+    color: #fff;
+    background-color: #87CEEB;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.enter-btn, .socialmedia-btn, .photo-btn, .back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.5em;
+    background: gold;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #ffcc00;
+}
