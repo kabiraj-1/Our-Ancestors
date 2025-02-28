@@ -109,7 +109,7 @@
     for (let i = 1; i <= totalPhotos; i++) {
       const img = document.createElement("img");
       // Use encodeURI to properly handle spaces and parentheses in the filename
-      img.src = encodeURI(`kabiraj (${i}).jpg`);
+      img.src = encodeURI(`photos/kabiraj (${i}).jpg`);
       img.alt = `Photo ${i}`;
       img.onclick = function () {
         openOverlay(this.src, i);
@@ -128,7 +128,7 @@
     // Update the download link with the current image
     function updateDownloadLink() {
       downloadBtn.href = fullImage.src;
-      downloadBtn.setAttribute("download", `kabiraj (${currentIndex}).jpg`);
+      downloadBtn.setAttribute("download", `photos/kabiraj (${currentIndex}).jpg`);
     }
 
     // Close the overlay
@@ -140,7 +140,7 @@
     function nextPhoto() {
       // Move to the next photo (wrap around to 1 when reaching the end)
       currentIndex = currentIndex < totalPhotos ? currentIndex + 1 : 1;
-      fullImage.src = encodeURI(`kabiraj (${currentIndex}).jpg`);
+      fullImage.src = encodeURI(`photos/kabiraj (${currentIndex}).jpg`);
       updateDownloadLink();
     }
 
