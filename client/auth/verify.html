@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verify Email</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <div class="auth-container">
         <h2>Verify Your Email</h2>
+        <p class="verify-instruction">We've sent a 6-digit code to your email</p>
         <form id="verifyForm">
             <div class="form-group">
-                <input type="text" id="verificationCode" placeholder="Enter 6-digit code" required>
+                <input type="text" id="otp" placeholder="Enter OTP" maxlength="6" required>
             </div>
             <button type="submit" class="btn-primary">Verify</button>
+            <p class="resend-text">Didn't receive code? 
+                <a href="#" id="resendOtp">Resend</a> 
+                <span id="countdown"></span>
+            </p>
         </form>
         <div id="loader" class="loader"></div>
     </div>
