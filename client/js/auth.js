@@ -11,7 +11,7 @@ document.getElementById('registerForm')?.addEventListener('submit', async (e) =>
         };
 
         // Make API call
-        const response = await fetch('http://localhost:3000/api/auth/register', {
+        const response = await fetch('http://localhost:5500/client/auth/register.html', {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
