@@ -1,76 +1,121 @@
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
+const otpGenerator = require('otp-generator');
 
-// Password reset token generator
-const generateResetToken = (userId) => {
-    return jwt.sign({ _id: userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS
+    }
+});
+
+exports.registerUser = async (req, res) => {
+    try {
+        const { email, username, password } = req.body;
+
+        // Check if user exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        // Generate OTP
+        const otp = otpGenerator.generate(6, {
+            digits: true,
+            lowerCaseAlphabets: false,
+            upperCaseAlphabets: false,
+            specialChars: false
+        });
+
+        // Save user to database with OTP
+        const user = new User({
+            username,
+            email,
+            password,
+            otp,
+            otpExpiry: Date.now() + 300000 // 5 minutes
+        });
+        
+        await user.save();
+
+        // Send OTP email
+        await transporter.sendMail({
+            from: process.env.GMAIL_USER,
+            to: email,
+            subject: 'Your Verification OTP',
+            html: `<p>Your OTP is: <strong>${otp}</strong></p>`
+        });
+
+        res.json({ success: true, email });
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 };
 
-// Forgot password handler
-exports.forgotPassword = async (req, res) => {
+exports.verifyOTP = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        if (user.otp !== otp || user.otpExpiry < Date.now()) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+
+        // Mark user as verified
+        user.isVerified = true;
+        user.otp = undefined;
+        user.otpExpiry = undefined;
+        await user.save();
+
+        // Generate JWT token
+        const token = user.generateAuthToken();
+        
+        res.json({ success: true, token });
+    } catch (error) {
+        console.error('Verification error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.resendOTP = async (req, res) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(400).json({ message: 'User not found' });
         }
 
-        // Generate reset token
-        const resetToken = generateResetToken(user._id);
-        user.resetToken = resetToken;
-        user.resetTokenExpiration = Date.now() + 3600000; // 1 hour
-        await user.save();
-
-        // Send reset email
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
+        // Generate new OTP
+        const newOTP = otpGenerator.generate(6, {
+            digits: true,
+            lowerCaseAlphabets: false,
+            upperCaseAlphabets: false,
+            specialChars: false
         });
 
-        const resetUrl = `${process.env.CLIENT_URL}/reset-password.html?token=${resetToken}`;
+        // Update OTP and expiry
+        user.otp = newOTP;
+        user.otpExpiry = Date.now() + 300000;
+        await user.save();
+
+        // Resend email
         await transporter.sendMail({
-            to: user.email,
-            subject: 'Password Reset',
-            html: `<p>Click <a href="${resetUrl}">here</a> to reset your password.</p>`
+            from: process.env.GMAIL_USER,
+            to: email,
+            subject: 'Your New Verification OTP',
+            html: `<p>Your new OTP is: <strong>${newOTP}</strong></p>`
         });
 
-        res.status(200).json({ message: 'Password reset link sent to your email' });
+        res.json({ success: true });
     } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-// Reset password handler
-exports.resetPassword = async (req, res) => {
-    try {
-        const { token } = req.params;
-        const { newPassword } = req.body;
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findOne({
-            _id: decoded._id,
-            resetToken: token,
-            resetTokenExpiration: { $gt: Date.now() }
-        });
-
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid or expired token' });
-        }
-
-        // Update password
-        user.password = await bcrypt.hash(newPassword, 8);
-        user.resetToken = undefined;
-        user.resetTokenExpiration = undefined;
-        await user.save();
-
-        res.status(200).json({ message: 'Password reset successful' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Resend OTP error:', error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
