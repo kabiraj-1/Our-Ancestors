@@ -33,3 +33,6 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use(cors({
+    origin: 'http://localhost:5500' // Update with your client port
+}));
