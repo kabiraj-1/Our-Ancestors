@@ -1,39 +1,82 @@
+// Auth form toggling
+document.getElementById('showRegister').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('registerSection').style.display = 'block';
+});
+
+document.getElementById('showLogin').addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('registerSection').style.display = 'none';
+    document.getElementById('loginSection').style.display = 'block';
+});
+
+// Login handler
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-        })
-    });
+    
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            })
+        });
 
-    if (response.ok) {
-        const { token, user } = await response.json();
-        localStorage.setItem('token', token);
-        localStorage.setItem('userId', user._id);
-        window.location.href = '/feed.html';
+        const data = await response.json();
+        
+        if (response.ok) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.user._id);
+            window.location.href = '/feed.html';
+        } else {
+            showError(data.message || 'Login failed');
+        }
+    } catch (error) {
+        showError('Network error - please try again later');
     }
 });
 
+// Registration handler (existing code with error handling)
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('username', document.getElementById('username').value);
-    formData.append('email', document.getElementById('email').value);
-    formData.append('password', document.getElementById('password').value);
-    formData.append('profilePic', document.getElementById('profilePic').files[0]);
+    
+    try {
+        const formData = new FormData();
+        // ... existing form data code ...
 
-    const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        body: formData
-    });
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            body: formData
+        });
 
-    if (response.ok) {
-        const { token, user } = await response.json();
-        localStorage.setItem('token', token);
-        localStorage.setItem('userId', user._id);
-        window.location.href = '/feed.html';
+        const data = await response.json();
+        
+        if (response.ok) {
+            // ... existing success code ...
+        } else {
+            showError(data.message || 'Registration failed');
+        }
+    } catch (error) {
+        showError('Network error - please try again later');
     }
 });
+
+// Error display function
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    errorDiv.style.color = '#e53e3e';
+    errorDiv.style.marginTop = '1rem';
+    errorDiv.style.textAlign = 'center';
+    
+    const container = document.querySelector('.auth-container');
+    container.prepend(errorDiv);
+    
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+}
