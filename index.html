@@ -5,95 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KABI RAJ BHATT</title>
     <link rel="stylesheet" href="stylesmain.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                        url('photos/kabiraj (16).jpg') center/cover fixed no-repeat;
-            font-family: Arial, sans-serif;
-            color: white;
-            position: relative;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
-
-        .content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        button {
-            margin: 0.5rem;
-            padding: 0.8rem 1.5rem;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-        }
-
-        .enter-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .socialmedia-btn {
-            background-color: #2196F3;
-            color: white;
-        }
-
-        .photo-btn {
-            background-color: #9C27B0;
-            color: white;
-        }
-
-        .back-btn {
-            background-color: #f44336;
-            color: white;
-        }
-
-        #time {
-            font-size: 1.5rem;
-            margin: 1rem 0;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        #age {
-            font-size: 1.2rem;
-            margin: 1rem 0;
-        }
-
-        .slogan {
-            font-size: 1.4rem;
-            margin: 1rem 0;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-    </style>
 </head>
 <body>
     <div class="overlay"></div>
@@ -109,7 +20,70 @@
     </div>
 
     <script>
-        // ... (keep your existing JavaScript code unchanged) ...
+        // Real-Time Clock
+        function updateTime() {
+            let now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById("time").innerText = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateTime, 1000);
+
+        // Age Calculator
+        function calculateAge(birthDate) {
+            let now = new Date();
+            let birth = new Date(birthDate);
+
+            let years = now.getFullYear() - birth.getFullYear();
+            let months = now.getMonth() - birth.getMonth();
+            let days = now.getDate() - birth.getDate();
+            let hours = now.getHours() - birth.getHours();
+            let minutes = now.getMinutes() - birth.getMinutes();
+            let seconds = now.getSeconds() - birth.getSeconds();
+
+            if (seconds < 0) {
+                seconds += 60;
+                minutes -= 1;
+            }
+            if (minutes < 0) {
+                minutes += 60;
+                hours -= 1;
+            }
+            if (hours < 0) {
+                hours += 24;
+                days -= 1;
+            }
+            if (days < 0) {
+                months -= 1;
+                let lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += lastMonth.getDate();
+            }
+            if (months < 0) {
+                months += 12;
+                years -= 1;
+            }
+
+            document.getElementById("age").innerText = `Age: ${years} years, ${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        }
+        setInterval(() => calculateAge("1997-03-17T04:00:00"), 1000);
+
+        // Navigation Functions
+        function enterSite() {
+            window.location.href = "krb wrb.html";
+        }
+
+        function socialmediaSite() {
+            window.location.href = "client/index.html";
+        }
+
+        function goToPhotoPage() {
+            window.location.href = "photos.html"; 
+        }
+
+        function goBack() {
+            window.history.back();
+        }
     </script>
 </body>
 </html>
