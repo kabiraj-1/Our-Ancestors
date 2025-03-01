@@ -9,7 +9,7 @@
 <body>
     <div class="auth-container">
         <h2>Create Account</h2>
-        <form id="registerForm" enctype="multipart/form-data">
+        <form id="registerForm">
             <div class="form-group">
                 <input type="text" id="username" placeholder="Username" required>
             </div>
@@ -19,15 +19,12 @@
             <div class="form-group">
                 <input type="password" id="password" placeholder="Password" required>
             </div>
-            <div class="form-group">
-                <label for="profilePic" class="file-label">
-                    <span id="fileText">Upload Profile Picture</span>
-                    <input type="file" id="profilePic" accept="image/*">
-                </label>
-            </div>
             <button type="submit" class="btn-primary">Register</button>
         </form>
-        <p class="auth-link">Already have an account? <a href="login.html">Login here</a></p>
+        <div class="auth-links">
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+        <div id="loader" class="loader"></div>
     </div>
     <script src="../js/auth.js"></script>
 </body>
