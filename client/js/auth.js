@@ -128,3 +128,37 @@ window.addEventListener('DOMContentLoaded', () => {
         startCountdown();
     }
 });
+document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    showLoader(true);
+    
+    try {
+        const formData = new FormData();
+        formData.append('username', document.getElementById('username').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('password', document.getElementById('password').value);
+        formData.append('profilePic', document.getElementById('profilePic').files[0]);
+
+        const response = await fetch('http://localhost:3000/api/auth/register', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                // Don't set Content-Type header for FormData
+                // Browser will set it automatically with boundary
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Registration failed');
+        }
+
+        const data = await response.json();
+        window.location.href = `verify.html?email=${encodeURIComponent(data.email)}`;
+    } catch (error) {
+        console.error('Registration error:', error);
+        showError(error.message || 'Network error - please check your connection');
+    } finally {
+        showLoader(false);
+    }
+});
