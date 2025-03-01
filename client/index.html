@@ -5,6 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Ancestors - Social Media Interface</title>
     <link rel="stylesheet" href="css/landing.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+                        url('../photos/kabiraj%20(33).jpg') center/cover fixed no-repeat;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+
+        .visitor-button {
+            background-color: #6a1b9a !important;
+            border: 2px solid #ffffff55;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .visitor-button:hover {
+            background-color: #4a148c !important;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -21,6 +62,7 @@
         <div class="button-container">
             <a href="auth/login.html" class="action-button">खाता छ </a>
             <a href="auth/register.html" class="action-button">खाता छैन </a>
+            <a href="visitor.html" class="action-button visitor-button">अतिथिको रूपमा जानुहोस्</a>
         </div>
 
         <div class="contact-section">
@@ -37,5 +79,27 @@
     </div>
 
     <script src="js/landing.js"></script>
+    <script>
+        // Enhanced button animations
+        document.querySelectorAll('.action-button').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const x = e.pageX - button.offsetLeft;
+                const y = e.pageY - button.offsetTop;
+                button.style.setProperty('--x', x + 'px');
+                button.style.setProperty('--y', y + 'px');
+            });
+        });
+
+        // Background load animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+
+        // Contact toggle function
+        function toggleContact() {
+            const contactInfo = document.getElementById('contact-info');
+            contactInfo.style.display = contactInfo.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
