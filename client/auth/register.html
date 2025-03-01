@@ -1,34 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Auth</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="auth-container">
-        <!-- Login Form -->
-        <div id="loginSection">
-            <h2>Login</h2>
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-            <p class="toggle-form">Don't have an account? <a href="#" id="showRegister">Register</a></p>
-        </div>
-
-        <!-- Register Form -->
-        <div id="registerSection" style="display: none;">
-            <h2>Register</h2>
-            <form id="registerForm" enctype="multipart/form-data">
+        <h2>Create Account</h2>
+        <form id="registerForm" enctype="multipart/form-data">
+            <div class="form-group">
                 <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
                 <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
                 <input type="password" id="password" placeholder="Password" required>
-                <input type="file" id="profilePic" accept="image/*">
-                <button type="submit">Register</button>
-            </form>
-            <p class="toggle-form">Already have an account? <a href="#" id="showLogin">Login</a></p>
-        </div>
+            </div>
+            <div class="form-group">
+                <label for="profilePic" class="file-label">
+                    <span id="fileText">Upload Profile Picture</span>
+                    <input type="file" id="profilePic" accept="image/*">
+                </label>
+            </div>
+            <button type="submit" class="btn-primary">Register</button>
+        </form>
+        <p class="auth-link">Already have an account? <a href="login.html">Login here</a></p>
     </div>
     <script src="js/auth.js"></script>
 </body>
