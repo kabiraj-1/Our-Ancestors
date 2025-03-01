@@ -1,18 +1,35 @@
-// Auth form toggling
-document.getElementById('showRegister').addEventListener('click', (e) => {
+// Handle Registration
+document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    document.getElementById('loginSection').style.display = 'none';
-    document.getElementById('registerSection').style.display = 'block';
+    
+    const formData = new FormData();
+    formData.append('username', document.getElementById('username').value);
+    formData.append('email', document.getElementById('email').value);
+    formData.append('password', document.getElementById('password').value);
+    formData.append('profilePic', document.getElementById('profilePic').files[0]);
+
+    try {
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.user._id);
+            window.location.href = '/feed.html';
+        } else {
+            showError(data.message || 'Registration failed');
+        }
+    } catch (error) {
+        showError('Network error - please try again later');
+    }
 });
 
-document.getElementById('showLogin').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('registerSection').style.display = 'none';
-    document.getElementById('loginSection').style.display = 'block';
-});
-
-// Login handler
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
+// Handle Login
+document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     try {
@@ -20,8 +37,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                email: document.getElementById('loginEmail').value,
-                password: document.getElementById('loginPassword').value
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
             })
         });
 
@@ -39,44 +56,20 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
-// Registration handler (existing code with error handling)
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    try {
-        const formData = new FormData();
-        // ... existing form data code ...
-
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await response.json();
-        
-        if (response.ok) {
-            // ... existing success code ...
-        } else {
-            showError(data.message || 'Registration failed');
-        }
-    } catch (error) {
-        showError('Network error - please try again later');
-    }
-});
-
-// Error display function
+// Error handling function
 function showError(message) {
     const errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
     errorDiv.textContent = message;
-    errorDiv.style.color = '#e53e3e';
-    errorDiv.style.marginTop = '1rem';
-    errorDiv.style.textAlign = 'center';
     
     const container = document.querySelector('.auth-container');
     container.prepend(errorDiv);
     
-    setTimeout(() => {
-        errorDiv.remove();
-    }, 5000);
+    setTimeout(() => errorDiv.remove(), 5000);
 }
+
+// File upload label text update
+document.getElementById('profilePic')?.addEventListener('change', function(e) {
+    const fileName = e.target.files[0]?.name || 'Upload Profile Picture';
+    document.getElementById('fileText').textContent = fileName;
+});
