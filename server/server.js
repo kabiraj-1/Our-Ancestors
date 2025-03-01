@@ -1,40 +1,73 @@
-require('dotenv').config();
+// server/index.js
 const express = require('express');
-const http = require('http');
-const socketio = require('socket.io');
-const connectDB = require('./config/db');
-const path = require('path');
-
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
 
-// Connect Database
-connectDB();
+app.use(cors());
+app.use(bodyParser.json());
 
-// Middleware
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../client')));
+// Temporary storage for verification codes
+const verificationCodes = new Map();
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/posts', require('./routes/posts'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/friends', require('./routes/friends'));
-app.use('/api/chat', require('./routes/chat'));
-
-// WebSocket
-io.on('connection', (socket) => {
-    socket.on('join', (userId) => {
-        socket.join(userId);
-    });
-
-    socket.on('sendMessage', async ({ sender, receiver, content }) => {
-        const message = new Message({ sender, receiver, content });
-        await message.save();
-        io.to(receiver).emit('newMessage', message);
-    });
+// Configure email transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS
+    }
 });
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Registration endpoint
+app.post('/api/auth/register', async (req, res) => {
+    try {
+        // Generate 6-digit verification code
+        const code = Math.floor(100000 + Math.random() * 900000);
+        const verificationCode = code.toString();
+        
+        // Store code with expiration (10 minutes)
+        verificationCodes.set(req.body.email, {
+            code: verificationCode,
+            expires: Date.now() + 600000
+        });
+
+        // Send verification email
+        await transporter.sendMail({
+            from: 'Your App <yourapp@gmail.com>',
+            to: req.body.email,
+            subject: 'Email Verification Code',
+            text: `Your verification code is: ${verificationCode}`
+        });
+
+        res.status(200).json({ 
+            message: 'Verification code sent',
+            email: req.body.email
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error sending verification email' });
+    }
+});
+
+// Verification endpoint
+app.post('/api/auth/verify', (req, res) => {
+    const { email, code } = req.body;
+    const storedCode = verificationCodes.get(email);
+
+    if (!storedCode || storedCode.expires < Date.now()) {
+        return res.status(400).json({ message: 'Invalid or expired code' });
+    }
+
+    if (storedCode.code === code) {
+        verificationCodes.delete(email);
+        // Create user in database here
+        const token = generateAuthToken(); // Implement JWT generation
+        return res.json({ token });
+    }
+
+    res.status(400).json({ message: 'Invalid verification code' });
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
