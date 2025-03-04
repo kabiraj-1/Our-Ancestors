@@ -1,42 +1,33 @@
-exports.registerUser = async (req, res) => {
-    try {
-        // Access data from request body
-        const { email, username, password } = req.body;
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-        // Validate required fields
-        if (!email || !username || !password) {
-            return res.status(400).json({ 
-                message: 'All fields are required' 
-            });
-        }
+exports.register = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const userExists = await User.findOne({ email });
 
-        // Check if user exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ 
-                message: 'User already exists' 
-            });
-        }
+    if (userExists) return res.status(400).json({ message: "Email already in use" });
 
-        // Create new user
-        const newUser = new User({
-            username,
-            email,
-            password
-        });
+    const user = await User.create({ name, email, password });
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-        // Save to database
-        await newUser.save();
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
-        res.status(201).json({ 
-            success: true, 
-            email: newUser.email 
-        });
-
-    } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ 
-            message: 'Server error' 
-        });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ message: "Invalid credentials" });
     }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    res.json({ token, user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
