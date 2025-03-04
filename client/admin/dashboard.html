@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Post</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="create-post-container">
+        <h2>Create Post</h2>
+        <form id="postForm" enctype="multipart/form-data">
+            <textarea id="postContent" placeholder="What's on your mind?"></textarea>
+            <input type="file" id="imageUpload" multiple accept="image/*">
+            <div id="imagePreview"></div>
+            <button type="submit">Post</button>
+        </form>
+    </div>
+    <script src="/js/feed.js"></script>
+</body>
+</html>
