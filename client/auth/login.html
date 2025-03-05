@@ -3,22 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>चाबी खोल्नुहोस्</title>
+    <title>Login</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="auth-container">
-        <h2>स्वागत छ हाम्रो पुर्खामा </h2>
+    <div class="container">
         <form id="loginForm">
-            <div class="form-group">
-                <input type="email" id="email" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="btn-primary">चाबी खोल्नुहोस्</button>
+            <h2>Login</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="register.html">Register</a></p>
         </form>
-        <p class="auth-link">खाता छैन भने ? <a href="register.html">यहाँ गएर खोल्नुहोस्</a></p>
     </div>
     <script src="../js/auth.js"></script>
 </body>
