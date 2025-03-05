@@ -3,28 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>हामीसँग जोडीनुहोस् </title>
+    <title>Register</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="auth-container">
-        <h2>खाता खोल्नुहोस् </h2>
+    <div class="container">
         <form id="registerForm">
-            <div class="form-group">
-                <input type="text" id="username" placeholder="Username" required>
-            </div>
-            <div class="form-group">
-                <input type="email" id="email" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="btn-primary">हामीसँग जोडीनुहोस् </button>
+            <h2>Register</h2>
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="file" id="profilePic" accept="image/*">
+            <button type="submit">Register</button>
+            <p>Already have an account? <a href="login.html">Login</a></p>
         </form>
-        <div class="auth-links">
-            <p>पहिले नै खाता छ <a href="login.html">यहाँ गएर चाबी खोल्नुहोस्</a></p>
-        </div>
-        <div id="loader" class="loader"></div>
     </div>
     <script src="../js/auth.js"></script>
 </body>
