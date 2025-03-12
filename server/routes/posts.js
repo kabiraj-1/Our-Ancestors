@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const postController = require('../controllers/postController');
-const upload = require('../middleware/upload');
-const auth = require('../middleware/auth');
+const express = require("express");
+const { createPost, getPosts } = require("../controllers/postController");
+const auth = require("../middleware/auth");
 
-router.post('/', auth, upload.array('images'), postController.createPost);
-router.get('/', auth, postController.getFeed);
+const router = express.Router();
+
+router.post("/", auth, createPost);
+router.get("/", getPosts);
 
 module.exports = router;

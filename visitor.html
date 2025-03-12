@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नेपाली इतिहासको पुस्तक</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif Devanagari', 'Lohit Devanagari', serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(to right, #f4e7d3 0%, #f2e1c3 100%);
+            padding: 40px;
+            position: relative;
+        }
+
+        .book-cover {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border: 1px solid #d4c09e;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #3d2b1e;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 3px solid #8b5e3c;
+            padding-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        nav li {
+            margin: 1.5rem 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav li::before {
+            content: "📖";
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #5c4b3a;
+            font-size: 1.2rem;
+            padding: 12px 20px;
+            background: #f8f1e5;
+            border-radius: 5px;
+            display: block;
+            transition: all 0.3s ease;
+            border: 1px solid #d4c09e;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav a:hover {
+            background: #8b5e3c;
+            color: white;
+            transform: translateX(10px);
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+        }
+
+        .decorative-border {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+            border: 2px solid #8b5e3c;
+            pointer-events: none;
+            border-radius: 10px;
+        }
+
+        .crest {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .crest img {
+            width: 80px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .book-cover {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            nav a {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-cover">
+        <div class="decorative-border"></div>
+        <div class="crest">
+            <!-- Add your crest/image here -->
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA8UlEQVR4nO3XMQ6CMBSG4T8WJ3Fyc3Bx8QKewtPp5Gk8hQ4ewcHB0cHBwYGBgYGBgYGBgYHhPwSJvCStvCb9kpbk0XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3XQy3(Due to technical issues, the search service is temporarily unavailable.)
+
+Here's a decorated version with a book-like cover page design:
+
+```html
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नेपाली ऐतिहासिक विश्लेषण</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #f5e6d3 url('https://images.unsplash.com/photo-1585314062604-1a3577638cca?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            font-family: 'Cambria', 'Preeti', serif;
+            color: #3d2b1f;
+            position: relative;
+        }
+
+        .cover-page {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px double #8b4513;
+            font-family: 'Georgia', 'Preeti', serif;
+            color: #654321;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            margin: 3rem 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        nav li {
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #3d2b1f;
+            font-size: 1.4rem;
+            padding: 1rem 2rem;
+            display: block;
+            background: #f8f1e6;
+            border: 2px solid #d4c4b5;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav a:hover {
+            background: #e6d5c3;
+            transform: translateY(-2px);
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+        }
+
+        .decoration {
+            text-align: center;
+            margin: 2rem 0;
+            opacity: 0.8;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            border-top: 1px solid #d4c4b5;
+            font-style: italic;
+            color: #6b5b4d;
+        }
+
+        @media (max-width: 768px) {
+            .cover-page {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            nav a {
+                font-size: 1.1rem;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cover-page">
+        <h1>नेपाली इतिहासको स्वर्णिम पृष्ठहरू<br>ऐतिहासिक ब्यक्तित्व, घटनाक्रम र योगदान</h1>
+        
+        <div class="decoration">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="#8b4513">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <path d="M12 6l-5 5 5 5V6z"/>
+            </svg>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="../client/prithivi narayan shah/index1.html">पृथ्वीनारायण शाह - एकीकरणका महानायक</a></li>
+                <li><a href="../client/king tribhuwan/index.html">राजा त्रिभुवन - लोकतन्त्रका पुर्वाधार</a></li>
+                <li><a href="../client/BP/index.html">वि.प्र. कोइराला - प्रजातन्त्रका प्रणेता(comming soon...)</a></li>
+                <li><a href="../client/rajkumari/index.html">राजकुमारी ऐश्वर्य - आधुनिक नेपालको प्रतिनिधि(comming soon...)</a></li>
+            </ul>
+        </nav>
+
+        <div class="footer">
+            सम्पादक: कविराज भट्ट<br>
+            प्रकाशन मिति: २०८१/११/२०
+        </div>
+    </div>
+</body>
+</html>

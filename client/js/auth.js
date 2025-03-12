@@ -1,39 +1,40 @@
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
+document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-        })
-    });
+    showLoader(true);
 
-    if (response.ok) {
-        const { token, user } = await response.json();
-        localStorage.setItem('token', token);
-        localStorage.setItem('userId', user._id);
-        window.location.href = '/feed.html';
-    }
-});
+    try {
+        // Collect form data
+        const userData = {
+            username: document.getElementById('username').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value.trim()
+        };
 
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('username', document.getElementById('username').value);
-    formData.append('email', document.getElementById('email').value);
-    formData.append('password', document.getElementById('password').value);
-    formData.append('profilePic', document.getElementById('profilePic').files[0]);
+        // API request to backend
+        const response = await fetch('http://localhost:5000/api/auth/register', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
 
-    const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        body: formData
-    });
+        // Check if response is valid JSON
+        let data;
+        try {
+            data = await response.json();
+        } catch (jsonError) {
+            throw new Error('Invalid server response');
+        }
 
-    if (response.ok) {
-        const { token, user } = await response.json();
-        localStorage.setItem('token', token);
-        localStorage.setItem('userId', user._id);
-        window.location.href = '/feed.html';
+        if (response.ok) {
+            window.location.href = `verify.html?email=${encodeURIComponent(data.email)}`;
+        } else {
+            showError(data.message || 'Registration failed');
+        }
+    } catch (error) {
+        showError(error.message || 'Network error - please check your connection');
+    } finally {
+        showLoader(false);
     }
 });
