@@ -1,40 +1,32 @@
+// Auth Functions
+const API_BASE = 'http://localhost:5000/api/auth';
+
 document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    showLoader(true);
+  e.preventDefault();
+  
+  const userData = {
+    username: document.getElementById('username').value,
+    email: document.getElementById('email').value,
+    password: document.getElementById('password').value
+  };
 
-    try {
-        // Collect form data
-        const userData = {
-            username: document.getElementById('username').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            password: document.getElementById('password').value.trim()
-        };
+  try {
+    const response = await fetch(`${API_BASE}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    });
 
-        // API request to backend
-        const response = await fetch('http://localhost:5000/api/auth/register', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData)
-        });
-
-        // Check if response is valid JSON
-        let data;
-        try {
-            data = await response.json();
-        } catch (jsonError) {
-            throw new Error('Invalid server response');
-        }
-
-        if (response.ok) {
-            window.location.href = `verify.html?email=${encodeURIComponent(data.email)}`;
-        } else {
-            showError(data.message || 'Registration failed');
-        }
-    } catch (error) {
-        showError(error.message || 'Network error - please check your connection');
-    } finally {
-        showLoader(false);
+    const data = await response.json();
+    
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      window.location.href = '/feed.html';
+    } else {
+      alert(data.error || 'Registration failed');
     }
+  } catch (err) {
+    console.error('Error:', err);
+    alert('Connection error');
+  }
 });
