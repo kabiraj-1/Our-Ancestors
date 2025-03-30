@@ -30,3 +30,9 @@ mongoose.connect(process.env.DB_URI)
 app.listen(PORT, () => {
   console.log(`🖥️ Server running on port ${PORT}`);
 });
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
