@@ -1,19 +1,30 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const { MongoClient } = require('mongodb');
 
-dotenv.config();
+// Replace <db_password> with your actual password and <db_name> with your database name
+const uri = "mongodb+srv://bhattkabiraj255:9847546823Divy%40@cluster-kabi.fhxcsc6.mongodb.net/our-ancestors?retryWrites=true&w=majority";
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("MongoDB Connected Successfully");
-  } catch (err) {
-    console.error("MongoDB Connection Error:", err);
-    process.exit(1);
-  }
-};
+const client = new MongoClient(uri);
 
-module.exports = connectDB;
+async function connectToDatabase() {
+    try {
+        // Connect to the MongoDB cluster
+        await client.connect();
+        console.log("Connected to MongoDB!");
+
+        // Access the database
+        const db = client.db("our-ancestors");
+
+        // Example: List collections
+        const collections = await db.listCollections().toArray();
+        console.log("Collections:", collections);
+
+        return db;
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+    } finally {
+        // Uncomment this line if you want to close the connection after operations
+        // await client.close();
+    }
+}
+
+module.exports = connectToDatabase;
