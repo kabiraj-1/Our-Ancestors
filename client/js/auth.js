@@ -1,5 +1,5 @@
-// Auth Functions
-const API_BASE = 'http://localhost:5000/api/auth';
+// Change from localhost to your domain
+const API_BASE = 'https://kabirajbhatt.com.np/api'; // Production API endpoint';
 
 document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
   e.preventDefault();
