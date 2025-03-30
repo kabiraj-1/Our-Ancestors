@@ -30,3 +30,19 @@ document.getElementById('registerForm')?.addEventListener('submit', async (e) =>
     alert('Connection error');
   }
 });
+try {
+  const response = await fetch(`${API_BASE}/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData)
+  });
+  
+  console.log('Response status:', response.status); // Add this
+  const data = await response.json();
+  console.log('Response data:', data); // Add this
+  
+  // ... rest of your code
+} catch (err) {
+  console.error('Full error:', err); // Detailed error logging
+  alert(`Error: ${err.message}`);
+}
