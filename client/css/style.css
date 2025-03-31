@@ -50,3 +50,27 @@ a {
     color: #007bff;
     text-decoration: none;
 }
+.error {
+    color: #e74c3c;
+    background: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+/* Add this to your existing styles */
+.auth-form h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.auth-form p {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.auth-form a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}

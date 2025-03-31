@@ -1,16 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Friend Requests</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <title>Register</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="requests-container">
-        <h2>Friend Requests</h2>
-        <div id="requestsList" class="requests-list"></div>
+    <div class="container">
+        <form id="registerForm" class="auth-form" enctype="multipart/form-data">
+            <h2>Create Account</h2>
+            <div id="error-message" class="error" style="display: none;"></div>
+            
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="username" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="email" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Profile Picture</label>
+                <input type="file" id="avatar" accept="image/*">
+            </div>
+            
+            <button type="submit" class="btn">Register</button>
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </form>
     </div>
-    <script src="../assets/js/main.js"></script>
+    <script src="../js/auth.js"></script>
 </body>
 </html>

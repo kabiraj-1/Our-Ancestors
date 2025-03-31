@@ -1,54 +1,36 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-
-const createToken = id => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
-  });
-};
+const bcrypt = require('bcryptjs');
 
 exports.register = async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-    
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-    if (existingUser) return res.status(400).json({ error: 'User exists' });
+    try {
+        const { username, email, password } = req.body;
+        
+        // Check if user exists
+        if (await User.findOne({ $or: [{ username }, { email }] })) {
+            return res.status(400).json({ error: 'User already exists' });
+        }
 
-    const user = await User.create({ username, email, password });
-    const token = createToken(user._id);
+        // Create new user
+        const user = new User({
+            username,
+            email,
+            password,
+            avatar: req.file ? `/assets/uploads/${req.file.filename}` : null
+        });
 
-    res.status(201).json({
-      status: 'success',
-      token,
-      user: { id: user._id, username, email }
-    });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-exports.register = async (req, res) => {
-  try {
-    console.log('Registration attempt:', req.body); // Log incoming request
-    
-    const { username, email, password } = req.body;
-    console.log('Checking existing users...');
-    
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-    if (existingUser) {
-      console.log('User exists:', existingUser);
-      return res.status(400).json({ error: 'User exists' });
+        await user.save();
+
+        // Generate JWT
+        const token = jwt.sign(
+            { userId: user._id }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '7d' }
+        );
+
+        res.status(201).json({ token });
+    } catch (err) {
+        console.error('Registration error:', err);
+        res.status(500).json({ error: 'Server error' });
     }
-
-    console.log('Creating new user...');
-    const user = await User.create({ username, email, password });
-    
-    console.log('User created:', user._id);
-    const token = createToken(user._id);
-    
-    res.status(201).json({ /* ... */ });
-    
-  } catch (err) {
-    console.error('Registration error:', err.stack); // Full error stack
-    res.status(400).json({ error: err.message });
-  }
 };
