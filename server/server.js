@@ -2,40 +2,34 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const socketio = require('socket.io');
-const authRoutes = require('./server/routes/auth');
-const postRoutes = require('./server/routes/posts');
+const connectDB = require('./config/db');
 
+// Initialize app
 const app = express();
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+connectDB();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('client'));
+app.use(express.static(path.join(__dirname, '../../client')));
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/posts', postRoutes);
+app.use('/api/auth', require('./routes/auth'));
 
-// Socket.io setup
-const server = app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server running on port ${process.env.PORT || 3000}`);
+// Serve client files
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client', 'auth', 'register.html'));
 });
 
-const io = socketio(server, {
-  cors: {
-    origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST"]
-  }
-});
+// Server setup
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, () => 
+  console.log(`Server running on port ${PORT}`));
 
-// WebSocket connections
-io.on('connection', (socket) => {
-  console.log('New WebSocket connection');
-  require('./server/controllers/chatController')(socket, io);
-});
+// WebSocket setup
+const io = socketio(server);
+require('./controllers/chatController')(io);
