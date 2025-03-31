@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Uploads
+client/assets/uploads/*
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
