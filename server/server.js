@@ -1,38 +1,41 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
-const path = require('path');
-
-// Load environment variables
-dotenv.config({ path: path.join(__dirname, '.env') });
+const socketio = require('socket.io');
+const authRoutes = require('./server/routes/auth');
+const postRoutes = require('./server/routes/posts');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(cors({
-  origin: process.env.CORS_ORIGIN,
-  credentials: true
-}));
-
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
 
 // Database connection
-mongoose.connect(process.env.DB_URI)
-  .then(() => console.log('🗄️ MongoDB connected'))
-  .catch(err => console.error('💥 Connection error:', err));
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🖥️ Server running on port ${PORT}`);
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static('client'));
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
+
+// Socket.io setup
+const server = app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server running on port ${process.env.PORT || 3000}`);
 });
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+
+const io = socketio(server, {
+  cors: {
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST"]
+  }
+});
+
+// WebSocket connections
+io.on('connection', (socket) => {
+  console.log('New WebSocket connection');
+  require('./server/controllers/chatController')(socket, io);
+});
