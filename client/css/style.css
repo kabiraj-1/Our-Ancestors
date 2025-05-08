@@ -73,4 +73,27 @@ a {
 .auth-form a {
     color: var(--secondary-color);
     text-decoration: none;
+}.error {
+  border: 2px solid #ff4444 !important;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.alert {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.alert.error {
+  background-color: #ffebee;
+  border: 1px solid #ff4444;
+  color: #ff4444;
 }
