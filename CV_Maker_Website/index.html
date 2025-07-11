@@ -3,53 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Professional CV Maker with Dynamic Sections</title>
+  <title>🌟 Professional CV Maker</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+  <div class="container">
+    <h1>🌟 Professional CV Maker with Dynamic Sections</h1>
 
-<div class="container">
-  <h1>🌟 Professional CV Maker with Dynamic Sections</h1>
-  
-  <form id="cvForm" onsubmit="return false;">
-    <input type="text" id="name" placeholder="Full Name" required />
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="text" id="phone" placeholder="Phone Number" required />
-    <input type="text" id="address" placeholder="Address" required />
-    <textarea id="summary" placeholder="Professional Summary (Short & Powerful)"></textarea>
+    <form id="cvForm" onsubmit="return false;">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="text" id="phone" placeholder="Phone Number" required />
+      <input type="text" id="address" placeholder="Address" required />
+      <textarea id="summary" placeholder="Professional Summary (Short & Powerful)"></textarea>
 
-    <!-- Education -->
-    <h3>Education</h3>
-    <div id="education-rows" class="dynamic-rows"></div>
-    <button type="button" id="add-edu-btn" class="add-btn">+ Add Education</button>
+      <!-- Education -->
+      <h3>Education</h3>
+      <div id="education-rows" class="dynamic-rows"></div>
+      <button type="button" id="add-edu-btn" class="add-btn">+ Add Education</button>
 
-    <!-- Experience -->
-    <h3>Experience</h3>
-    <div id="experience-rows" class="dynamic-rows"></div>
-    <button type="button" id="add-exp-btn" class="add-btn">+ Add Experience</button>
+      <!-- Experience -->
+      <h3>Experience</h3>
+      <div id="experience-rows" class="dynamic-rows"></div>
+      <button type="button" id="add-exp-btn" class="add-btn">+ Add Experience</button>
 
-    <!-- Skills -->
-    <h3>Skills</h3>
-    <div id="skills-rows" class="dynamic-rows"></div>
-    <button type="button" id="add-skill-btn" class="add-btn">+ Add Skill</button>
+      <!-- Skills -->
+      <h3>Skills</h3>
+      <div id="skills-rows" class="dynamic-rows"></div>
+      <button type="button" id="add-skill-btn" class="add-btn">+ Add Skill</button>
 
-    <!-- Certifications & Training -->
-    <h3>Certifications & Training</h3>
-    <div id="certifications-rows" class="dynamic-rows"></div>
-    <button type="button" id="add-cert-btn" class="add-btn">+ Add Certification/Training</button>
+      <!-- Certifications -->
+      <h3>Certifications & Training</h3>
+      <div id="certifications-rows" class="dynamic-rows"></div>
+      <button type="button" id="add-cert-btn" class="add-btn">+ Add Certification/Training</button>
 
-    <label for="photo">Upload Your Photo:</label>
-    <input type="file" id="photo" accept="image/*" />
-    
-    <button type="button" onclick="generateCV()">🚀 Generate CV</button>
-  </form>
-  
-  <div id="cvPreview" class="cv-preview"></div>
-  <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">📥 Download PDF</button>
-</div>
+      <!-- Photo Upload -->
+      <label for="photo">Upload Your Photo:</label>
+      <input type="file" id="photo" accept="image/*" />
 
-<script src="script.js"></script>
+      <button type="button" onclick="generateCV()">🚀 Generate CV</button>
+    </form>
 
+    <div id="cvPreview" class="cv-preview"></div>
+    <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">📥 Download PDF</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
