@@ -1,160 +1,100 @@
-/* Reset and base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #f0f2f5, #dfe9f3);
-  color: #333;
+  font-family: 'Segoe UI', sans-serif;
+  background: #eef2f7;
+  margin: 0;
   padding: 20px;
 }
 
-/* Container */
 .container {
-  max-width: 1000px;
+  max-width: 850px;
   margin: auto;
-  padding: 30px;
-  background: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Title */
 h1 {
   text-align: center;
   color: #2c3e50;
-  margin-bottom: 30px;
-}
-
-/* Inputs and textarea */
-input, textarea, select {
-  width: 100%;
-  padding: 12px 15px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: 0.3s ease;
-}
-input:focus, textarea:focus {
-  border-color: #2980b9;
-  outline: none;
-}
-
-/* Buttons */
-button {
-  padding: 12px 20px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-button:hover {
-  opacity: 0.9;
-}
-.add-btn {
-  background: #27ae60;
-  color: white;
-}
-.remove-btn {
-  background: #e74c3c;
-  color: white;
-}
-#downloadBtn, #downloadPhotoBtn {
-  background-color: #34495e;
-  color: #fff;
-  margin-top: 15px;
-}
-#toggleDemoBtn {
-  background-color: #9b59b6;
-  color: white;
-}
-
-/* Dynamic section rows */
-.dynamic-rows .row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.dynamic-rows .row input {
-  flex: 1 1 30%;
-}
-.dynamic-rows .row button {
-  flex: 0 0 auto;
-}
-
-/* CV Preview Section */
-#cvPreview {
-  margin-top: 40px;
-  padding: 25px;
-  background: #f8f9fa;
-  border: 2px dashed #ccc;
-  border-radius: 15px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-}
-
-/* CV Styles */
-#cv {
-  padding: 20px;
-}
-#cv img {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #2c3e50;
   margin-bottom: 20px;
 }
-#cv h1 {
-  font-size: 28px;
+
+.photo-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="file"] {
+  padding: 6px;
+}
+
+#cv-preview {
+  border: 1px solid #ccc;
+  padding: 20px;
+  background: #fdfdfd;
+  position: relative;
+}
+
+#cv-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  float: right;
+  object-fit: cover;
+  border: 3px solid #2c3e50;
+}
+
+h2 {
+  margin-top: 0;
   color: #2c3e50;
-  margin-bottom: 5px;
 }
-#cv h2 {
-  font-size: 20px;
-  color: #2980b9;
-  margin-bottom: 10px;
+
+section {
+  margin-top: 20px;
 }
-#cv h3 {
-  margin-top: 25px;
-  margin-bottom: 10px;
-  color: #34495e;
-  border-bottom: 2px solid #dcdcdc;
+
+section h3 {
+  border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
+  color: #34495e;
 }
-#cv p, #cv li {
-  font-size: 16px;
-  line-height: 1.6;
-}
-#cv ul {
-  padding-left: 25px;
-}
-#cv table {
+
+table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
-#cv table th, #cv table td {
-  padding: 10px;
+
+table th, table td {
   border: 1px solid #ccc;
-  font-size: 14px;
-}
-#cv table th {
-  background: #2980b9;
-  color: white;
-}
-#cv table tr:nth-child(even) {
-  background: #f0f0f0;
+  padding: 6px 10px;
+  text-align: left;
 }
 
-/* Responsive */
-@media screen and (max-width: 768px) {
-  .dynamic-rows .row input {
-    flex: 1 1 100%;
-  }
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.button-group {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.button-group button {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  margin: 0 5px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-group button:hover {
+  background: #1e8449;
 }
