@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>🌟 Professional CV Maker</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>🌟 Professional CV Maker with Dynamic Sections</h1>
+
     <form id="cvForm" onsubmit="return false;">
       <input type="text" id="name" placeholder="Full Name" required />
       <input type="email" id="email" placeholder="Email" required />
@@ -30,19 +32,22 @@
 
       <h3>Certifications & Training</h3>
       <div id="certifications-rows" class="dynamic-rows"></div>
-      <button type="button" id="add-cert-btn" class="add-btn">+ Add Certification</button>
+      <button type="button" id="add-cert-btn" class="add-btn">+ Add Certification/Training</button>
 
       <label for="photo">Upload Your Photo:</label>
       <input type="file" id="photo" accept="image/*" />
+      <button type="button" id="downloadPhotoBtn">📸 Download Profile Photo</button>
 
+      <br><br>
       <button type="button" onclick="generateCV()">🚀 Generate CV</button>
+      <button type="button" id="downloadBtn" style="display:none;" onclick="downloadPDF()">📥 Download PDF</button>
+      <button type="button" id="downloadWordBtn" style="display:none;" onclick="downloadWord()">📝 Download Word</button>
     </form>
 
+    <hr>
     <div id="cvPreview" class="cv-preview"></div>
-    <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">📥 Download PDF</button>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
