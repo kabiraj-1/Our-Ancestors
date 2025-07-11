@@ -1,167 +1,113 @@
 let photoDataURL = '';
 
-// Helpers to add dynamic input rows
+// Add row functions
 function addEducationRow(data = {}) {
+  const container = document.getElementById('education-rows');
   const row = document.createElement('div');
   row.classList.add('row');
   row.innerHTML = `
-    <input type="text" name="sno" placeholder="S. No." value="${data.sno || ''}">
-    <input type="text" name="qualification" placeholder="Academic Qualification" value="${data.qualification || ''}">
-    <input type="text" name="college" placeholder="College/School Name" value="${data.college || ''}">
-    <input type="text" name="major" placeholder="Major Subject" value="${data.major || ''}">
-    <input type="text" name="year" placeholder="Passed Year" value="${data.year || ''}">
-    <input type="text" name="division" placeholder="Division" value="${data.division || ''}">
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    <input name="sno" placeholder="S. No." value="${data.sno || ''}" />
+    <input name="qualification" placeholder="Qualification" value="${data.qualification || ''}" />
+    <input name="college" placeholder="School/College" value="${data.college || ''}" />
+    <input name="major" placeholder="Major" value="${data.major || ''}" />
+    <input name="year" placeholder="Year" value="${data.year || ''}" />
+    <input name="division" placeholder="Division" value="${data.division || ''}" />
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">✖</button>
   `;
-  document.getElementById('education-rows').appendChild(row);
+  container.appendChild(row);
 }
-
 function addExperienceRow(data = '') {
+  const container = document.getElementById('experience-rows');
   const row = document.createElement('div');
   row.classList.add('row');
   row.innerHTML = `
-    <input type="text" placeholder="Experience details" value="${data}">
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    <input type="text" value="${data}" placeholder="Experience detail" />
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">✖</button>
   `;
-  document.getElementById('experience-rows').appendChild(row);
+  container.appendChild(row);
 }
-
 function addSkillRow(data = '') {
+  const container = document.getElementById('skills-rows');
   const row = document.createElement('div');
   row.classList.add('row');
   row.innerHTML = `
-    <input type="text" placeholder="Skill" value="${data}">
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    <input type="text" value="${data}" placeholder="Skill" />
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">✖</button>
   `;
-  document.getElementById('skills-rows').appendChild(row);
+  container.appendChild(row);
 }
-
 function addCertificationRow(data = '') {
+  const container = document.getElementById('certifications-rows');
   const row = document.createElement('div');
   row.classList.add('row');
   row.innerHTML = `
-    <input type="text" placeholder="Certification or Training" value="${data}">
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    <input type="text" value="${data}" placeholder="Certification/Training" />
+    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">✖</button>
   `;
-  document.getElementById('certifications-rows').appendChild(row);
+  container.appendChild(row);
 }
 
-function removeRow(button) {
-  button.parentElement.remove();
-}
+// Event listeners
+document.getElementById('add-edu-btn').onclick = () => addEducationRow();
+document.getElementById('add-exp-btn').onclick = () => addExperienceRow();
+document.getElementById('add-skill-btn').onclick = () => addSkillRow();
+document.getElementById('add-cert-btn').onclick = () => addCertificationRow();
 
-// Image upload
-document.getElementById('photo').addEventListener('change', function (e) {
+// Upload photo
+document.getElementById('photo').addEventListener('change', e => {
   const file = e.target.files[0];
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    photoDataURL = event.target.result;
-  };
-  if (file) reader.readAsDataURL(file);
-});
-
-// Download uploaded photo
-document.getElementById('downloadPhotoBtn').addEventListener('click', () => {
-  if (!photoDataURL) {
-    alert("Please upload a photo first.");
-    return;
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = evt => photoDataURL = evt.target.result;
+    reader.readAsDataURL(file);
   }
-  const a = document.createElement("a");
-  a.href = photoDataURL;
-  a.download = "My_Photo.png";
-  a.click();
 });
 
-// Generate CV
+// Build Education table
+function buildEducationTable() {
+  const rows = document.querySelectorAll('#education-rows .row');
+  let table = '<table><thead><tr><th>S.No</th><th>Qualification</th><th>College</th><th>Major</th><th>Year</th><th>Division</th></tr></thead><tbody>';
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    table += `<tr>${[...inputs].map(i => `<td>${i.value}</td>`).join('')}</tr>`;
+  });
+  return table + '</tbody></table>';
+}
+function buildList(id) {
+  const inputs = document.querySelectorAll(`#${id} .row input`);
+  return `<ul>${[...inputs].map(i => `<li>${i.value}</li>`).join('')}</ul>`;
+}
+
 function generateCV() {
-  const name = document.getElementById('name').value || 'Your Name';
+  const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const phone = document.getElementById('phone').value;
   const address = document.getElementById('address').value;
   const summary = document.getElementById('summary').value;
 
-  const education = buildEducationTable();
-  const experience = buildListFromInputs('experience-rows');
-  const skills = buildListFromInputs('skills-rows');
-  const certifications = buildListFromInputs('certifications-rows');
+  const photo = photoDataURL ? `<img src="${photoDataURL}" alt="Photo">` : '';
 
-  const photo = photoDataURL
-    ? `<img src="${photoDataURL}" alt="Profile Photo">`
-    : `<img src="kabi.jpg" alt="Profile Photo">`;
-
-  const previewHTML = `
+  const cvHTML = `
     <div id="cv">
       ${photo}
       <h1>${name}</h1>
       <h2>Curriculum Vitae</h2>
-      <section>
-        <h3>Contact Information</h3>
-        <p><strong>Email:</strong> ${email} | <strong>Phone:</strong> ${phone} | <strong>Address:</strong> ${address}</p>
-      </section>
-      <section>
-        <h3>Professional Summary</h3>
-        <p>${summary.replace(/\n/g, "<br>")}</p>
-      </section>
-      <section>
-        <h3>Education</h3>
-        ${education}
-      </section>
-      <section>
-        <h3>Experience</h3>
-        ${experience}
-      </section>
-      <section>
-        <h3>Skills</h3>
-        ${skills}
-      </section>
-      <section>
-        <h3>Certifications & Training</h3>
-        ${certifications}
-      </section>
+      <p><strong>Email:</strong> ${email} | <strong>Phone:</strong> ${phone} | <strong>Address:</strong> ${address}</p>
+      <h3>Professional Summary</h3><p>${summary}</p>
+      <h3>Education</h3>${buildEducationTable()}
+      <h3>Experience</h3>${buildList('experience-rows')}
+      <h3>Skills</h3>${buildList('skills-rows')}
+      <h3>Certifications & Training</h3>${buildList('certifications-rows')}
     </div>
   `;
-
-  const preview = document.getElementById('cvPreview');
-  preview.innerHTML = previewHTML;
-  document.getElementById('downloadBtn').style.display = 'inline-block';
-  document.getElementById('downloadWordBtn').style.display = 'inline-block';
+  document.getElementById('cvPreview').innerHTML = cvHTML;
+  document.getElementById('cvActions').style.display = 'block';
 }
 
-// Table builder
-function buildEducationTable() {
-  const rows = document.querySelectorAll('#education-rows .row');
-  if (!rows.length) return '<p>No education details provided.</p>';
-
-  let table = `<table><thead><tr>
-    <th>S. No.</th><th>Qualification</th><th>College</th>
-    <th>Major</th><th>Year</th><th>Division</th>
-  </tr></thead><tbody>`;
-
-  rows.forEach(row => {
-    const values = [...row.querySelectorAll('input')].map(i => i.value || '-');
-    table += `<tr>${values.map(v => `<td>${v}</td>`).join('')}</tr>`;
-  });
-
-  table += '</tbody></table>';
-  return table;
-}
-
-// List builder
-function buildListFromInputs(containerId) {
-  const inputs = document.querySelectorAll(`#${containerId} .row input`);
-  const list = Array.from(inputs)
-    .map(input => input.value.trim())
-    .filter(val => val)
-    .map(val => `<li>${val}</li>`)
-    .join('');
-  return list ? `<ul>${list}</ul>` : '<p>None provided.</p>';
-}
-
-// PDF download
 function downloadPDF() {
-  const cvElement = document.getElementById('cv');
-  if (!cvElement) return alert("Please generate the CV first.");
-  html2pdf().from(cvElement).set({
+  const element = document.getElementById('cv');
+  if (!element) return alert("Please generate your CV first.");
+  html2pdf().from(element).set({
     margin: 0.5,
     filename: 'My_CV.pdf',
     html2canvas: { scale: 2 },
@@ -169,54 +115,43 @@ function downloadPDF() {
   }).save();
 }
 
-// Word Download
-function downloadWord() {
-  const cv = document.getElementById('cv');
-  if (!cv) return alert("Generate the CV first.");
-  const blob = new Blob(['\ufeff', cv.innerHTML], { type: 'application/msword' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "My_CV.doc";
-  document.body.appendChild(link);
+function downloadPhoto() {
+  if (!photoDataURL) return alert("Please upload a photo first!");
+  const link = document.createElement('a');
+  link.href = photoDataURL;
+  link.download = 'profile_photo.png';
   link.click();
-  document.body.removeChild(link);
 }
 
-// DEMO CV auto populate
-window.onload = () => {
-  document.getElementById('name').value = 'Kabiraj Bhatt';
-  document.getElementById('email').value = 'bhattkabiraj255@gmail.com';
-  document.getElementById('phone').value = '9847546823, 9812753490';
-  document.getElementById('address').value = 'Shuklaphanta 01, Kanchanpur';
-  document.getElementById('summary').value = `To augment my career in a Government sector where dynamism is the key concern and have enough scope to utilize my qualification along with the proper use of my vision, positive attitude, interpersonal relationship, and communication skills in order to be a part of the best practices and ideas.`;
+// Demo toggle
+function toggleDemo() {
+  const demoData = {
+    name: 'Kabiraj Bhatt',
+    email: 'bhattkabiraj255@gmail.com',
+    phone: '9847546823, 9812753490',
+    address: 'Shuklaphanta 01, Kanchanpur',
+    summary: 'To augment my career in a Government sector where dynamism is the key concern...'
+  };
+  Object.entries(demoData).forEach(([id, value]) => {
+    document.getElementById(id).value = value;
+  });
 
-  addEducationRow({ sno: '1', qualification: 'SLC', college: 'Baijnath H S School', major: 'Account & Economics', year: '2069', division: 'First' });
-  addEducationRow({ sno: '2', qualification: '+2 (Management)', college: 'Chandra Surya Bal H S School', major: 'Account & Marketing', year: '2073', division: 'Second' });
-  addEducationRow({ sno: '3', qualification: 'BBS (TU)', college: 'Krishna Baijnath Multiple Campus', major: 'Finance', year: '2080', division: 'Second' });
-  addEducationRow({ sno: '4', qualification: 'MBS (TU)', college: 'Janjyoti Multiple Campus', major: 'Finance', year: 'Running', division: '-' });
-  addEducationRow({ sno: '5', qualification: 'Diploma in Civil Engineering', college: 'Shuklaphanta Polytechnic Institute', major: '-', year: 'Running', division: '-' });
+  // Clear rows and populate with demo
+  document.getElementById('education-rows').innerHTML = '';
+  addEducationRow({ sno: '1', qualification: 'SLC', college: 'Baijnath H S School', major: 'Account', year: '2069', division: 'First' });
+  addEducationRow({ sno: '2', qualification: '+2', college: 'Chandra Surya H S School', major: 'Marketing', year: '2073', division: 'Second' });
 
-  addExperienceRow('10 Months as a computer operator at Shuklaphanta 01 office...');
-  addExperienceRow('45 Days as a data collector at Shuklaphanta 01 office.');
-  addExperienceRow('2 Months at Shuklaphanta 04 office.');
-  addExperienceRow('1 Month for Rastriya Janganana Bibag (2078).');
-  addExperienceRow('3 Years at Bipin Books & Stationers, Dhangadhi, Kailali.');
+  document.getElementById('experience-rows').innerHTML = '';
+  addExperienceRow('Computer Operator - Shuklaphanta Office (10 months)');
+  addExperienceRow('Data Collector - Janganana (1 month)');
 
-  addSkillRow('Computer Operator');
+  document.getElementById('skills-rows').innerHTML = '';
+  addSkillRow('Computer Operation');
   addSkillRow('Data Entry');
-  addSkillRow('MS Office');
-  addSkillRow('Communication');
-  addSkillRow('Basic Mobile Repairing');
 
-  addCertificationRow('Operator in Computer Training from CCT Computer Centre.');
-  addCertificationRow('Basic Mobile Repairing from Raj Technical Institute, Delhi.');
+  document.getElementById('certifications-rows').innerHTML = '';
+  addCertificationRow('Computer Training - CCT Center');
+  addCertificationRow('Mobile Repair - Raj Institute');
 
   generateCV();
-};
-
-// Add row events
-document.getElementById('add-edu-btn').onclick = () => addEducationRow();
-document.getElementById('add-exp-btn').onclick = () => addExperienceRow();
-document.getElementById('add-skill-btn').onclick = () => addSkillRow();
-document.getElementById('add-cert-btn').onclick = () => addCertificationRow();
+}
