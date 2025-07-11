@@ -1,102 +1,199 @@
 let photoDataURL = '';
 
-document.getElementById('add-edu-btn').onclick = () => addEducationRow();
-document.getElementById('add-exp-btn').onclick = () => addTextRow('experience-rows', 'Experience');
-document.getElementById('add-skill-btn').onclick = () => addTextRow('skills-rows', 'Skill');
-document.getElementById('add-cert-btn').onclick = () => addTextRow('certifications-rows', 'Certification');
+// Dynamic input row functions
+function addEducationRow(data = {}) {
+  const container = document.getElementById('education-rows');
+  const row = document.createElement('div');
+  row.classList.add('row');
+  row.innerHTML = `
+    <input type="text" name="sno" placeholder="S. No." value="${data.sno || ''}" />
+    <input type="text" name="qualification" placeholder="Academic Qualification" value="${data.qualification || ''}" />
+    <input type="text" name="college" placeholder="College/School Name" value="${data.college || ''}" />
+    <input type="text" name="major" placeholder="Major Subject" value="${data.major || ''}" />
+    <input type="text" name="year" placeholder="Passed Year" value="${data.year || ''}" />
+    <input type="text" name="division" placeholder="Division" value="${data.division || ''}" />
+    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+  `;
+  container.appendChild(row);
+}
 
-document.getElementById('photo').addEventListener('change', function(event) {
+function addTextRow(containerId, placeholder, value = '') {
+  const container = document.getElementById(containerId);
+  const row = document.createElement('div');
+  row.classList.add('row');
+  row.innerHTML = `
+    <input type="text" placeholder="${placeholder}" value="${value}" />
+    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+  `;
+  container.appendChild(row);
+}
+
+function removeRow(button) {
+  button.parentElement.remove();
+}
+
+// Add row buttons
+document.getElementById('add-edu-btn').addEventListener('click', () => addEducationRow());
+document.getElementById('add-exp-btn').addEventListener('click', () => addTextRow('experience-rows', 'Experience'));
+document.getElementById('add-skill-btn').addEventListener('click', () => addTextRow('skills-rows', 'Skill'));
+document.getElementById('add-cert-btn').addEventListener('click', () => addTextRow('certifications-rows', 'Certification/Training'));
+
+// Handle photo
+document.getElementById('photo').addEventListener('change', function (event) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       photoDataURL = e.target.result;
     };
     reader.readAsDataURL(file);
   }
 });
 
-function addEducationRow() {
-  const row = document.createElement('div');
-  row.classList.add('row');
-  row.innerHTML = `
-    <input placeholder="S. No.">
-    <input placeholder="Degree">
-    <input placeholder="School/College">
-    <input placeholder="Major">
-    <input placeholder="Year">
-    <input placeholder="Division">
-    <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
+function buildEducationTableFromInputs() {
+  const rows = document.querySelectorAll('#education-rows .row');
+  if (!rows.length) return '<p>No education details provided.</p>';
+
+  let table = `
+    <table>
+      <thead>
+        <tr>
+          <th>S. No.</th>
+          <th>Academic Qualification</th>
+          <th>College/School Name</th>
+          <th>Major Subject</th>
+          <th>Passed Year</th>
+          <th>Division</th>
+        </tr>
+      </thead>
+      <tbody>
   `;
-  document.getElementById('education-rows').appendChild(row);
+
+  rows.forEach(row => {
+    const cells = [
+      row.querySelector('input[name="sno"]').value.trim(),
+      row.querySelector('input[name="qualification"]').value.trim(),
+      row.querySelector('input[name="college"]').value.trim(),
+      row.querySelector('input[name="major"]').value.trim(),
+      row.querySelector('input[name="year"]').value.trim(),
+      row.querySelector('input[name="division"]').value.trim(),
+    ];
+
+    if (cells.some(cell => cell !== '')) {
+      table += '<tr>' + cells.map(cell => `<td>${cell || '-'}</td>`).join('') + '</tr>';
+    }
+  });
+
+  table += '</tbody></table>';
+  return table;
 }
 
-function addTextRow(sectionId, placeholder) {
-  const row = document.createElement('div');
-  row.classList.add('row');
-  row.innerHTML = `
-    <input placeholder="${placeholder}">
-    <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
-  `;
-  document.getElementById(sectionId).appendChild(row);
+function buildListFromInputs(containerId) {
+  const rows = document.querySelectorAll(`#${containerId} .row input`);
+  const items = Array.from(rows).map(input => input.value.trim()).filter(Boolean);
+  return items.length ? `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>` : '<p>None provided.</p>';
 }
 
 function generateCV() {
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
-  const address = document.getElementById('address').value;
-  const summary = document.getElementById('summary').value;
+  const name = document.getElementById('name').value || 'Your Name';
+  const email = document.getElementById('email').value || 'your.email@example.com';
+  const phone = document.getElementById('phone').value || '1234567890';
+  const address = document.getElementById('address').value || 'Your Address';
+  const summary = document.getElementById('summary').value || 'Professional summary goes here.';
+  const educationHTML = buildEducationTableFromInputs();
+  const experienceHTML = buildListFromInputs('experience-rows');
+  const skillsHTML = buildListFromInputs('skills-rows');
+  const certHTML = buildListFromInputs('certifications-rows');
 
-  let educationHTML = '<table><tr><th>S.No.</th><th>Qualification</th><th>College</th><th>Major</th><th>Year</th><th>Division</th></tr>';
-  document.querySelectorAll('#education-rows .row').forEach(row => {
-    const inputs = row.querySelectorAll('input');
-    if ([...inputs].some(input => input.value.trim() !== '')) {
-      educationHTML += `<tr>${[...inputs].map(i => `<td>${i.value}</td>`).join('')}</tr>`;
-    }
-  });
-  educationHTML += '</table>';
+  const photoHtml = photoDataURL
+    ? `<div id="photo-container"><img src="${photoDataURL}" alt="Profile Photo" /></div>`
+    : `<div id="photo-container"><img src="kabi.jpg" alt="Demo Photo" /></div>`;
 
-  const buildList = (id) => {
-    const rows = document.querySelectorAll(`#${id} .row input`);
-    return `<ul>${[...rows].map(i => `<li>${i.value}</li>`).join('')}</ul>`;
-  };
-
-  const photoHTML = photoDataURL
-    ? `<img src="${photoDataURL}" alt="Profile Photo">`
-    : `<img src="kabi.jpg" alt="Demo Photo">`;
-
-  const html = `
+  const cvHTML = `
     <div id="cv">
-      ${photoHTML}
-      <h2>${name}</h2>
-      <p><strong>Email:</strong> ${email} | <strong>Phone:</strong> ${phone} | <strong>Address:</strong> ${address}</p>
-      <h3>Summary</h3><p>${summary}</p>
-      <h3>Education</h3>${educationHTML}
-      <h3>Experience</h3>${buildList('experience-rows')}
-      <h3>Skills</h3>${buildList('skills-rows')}
-      <h3>Certifications</h3>${buildList('certifications-rows')}
+      ${photoHtml}
+      <h1>${name}</h1>
+      <h2>Curriculum Vitae</h2>
+
+      <section>
+        <h3>Contact Information</h3>
+        <p><strong>Email:</strong> ${email}<br><strong>Phone:</strong> ${phone}<br><strong>Address:</strong> ${address}</p>
+      </section>
+
+      <section>
+        <h3>Professional Summary</h3>
+        <p>${summary.replace(/\\n/g, '<br>')}</p>
+      </section>
+
+      <section>
+        <h3>Education</h3>
+        ${educationHTML}
+      </section>
+
+      <section>
+        <h3>Experience</h3>
+        ${experienceHTML}
+      </section>
+
+      <section>
+        <h3>Skills</h3>
+        ${skillsHTML}
+      </section>
+
+      <section>
+        <h3>Certifications & Training</h3>
+        ${certHTML}
+      </section>
     </div>
   `;
 
-  const preview = document.getElementById('cvPreview');
-  preview.innerHTML = html;
-  document.getElementById('downloadBtn').style.display = 'block';
+  document.getElementById('cvPreview').innerHTML = cvHTML;
+  document.getElementById('downloadBtn').style.display = 'inline-block';
 }
 
 function downloadPDF() {
-  const cvElement = document.querySelector('#cv');
+  const cvElement = document.getElementById('cv');
   if (!cvElement) {
-    alert('Please generate your CV first!');
+    alert('Please generate the CV first!');
     return;
   }
-  // Delay is important to allow DOM to render properly
-  setTimeout(() => {
-    html2pdf().from(cvElement).set({
-      margin: 0.5,
-      filename: 'My_CV.pdf',
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    }).save();
-  }, 500);
+
+  html2pdf().from(cvElement).set({
+    margin: 0.5,
+    filename: 'My_CV.pdf',
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  }).save();
 }
+
+// Load Demo Data Automatically
+window.onload = () => {
+  document.getElementById('name').value = 'Kabiraj Bhatt';
+  document.getElementById('email').value = 'bhattkabiraj255@gmail.com';
+  document.getElementById('phone').value = '9847546823, 9812753490';
+  document.getElementById('address').value = 'Shuklaphanta 01, Kanchanpur';
+  document.getElementById('summary').value = 'To augment my career in a Government sector where dynamism is the key concern...';
+
+  addEducationRow({
+    sno: '1',
+    qualification: 'SLC',
+    college: 'Baijnath H S School',
+    major: 'Account & Economics',
+    year: '2069',
+    division: 'First'
+  });
+  addEducationRow({
+    sno: '2',
+    qualification: '+2 (Management)',
+    college: 'Chandra Surya Bal H S School',
+    major: 'Account & Marketing',
+    year: '2073',
+    division: 'Second'
+  });
+
+  addTextRow('experience-rows', 'Experience', '3 Years at Bipin Books & Stationers');
+  addTextRow('skills-rows', 'Skill', 'MS Office');
+  addTextRow('certifications-rows', 'Certification', 'Computer Training - CCT Institute');
+
+  generateCV();
+};
