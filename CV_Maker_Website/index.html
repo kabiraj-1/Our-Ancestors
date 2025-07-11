@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Professional CV Maker with Dynamic Sections</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Professional CV Maker with Dynamic Sections</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -41,14 +42,14 @@
     <label for="photo">Upload Your Photo:</label>
     <input type="file" id="photo" accept="image/*" />
     
-    <button type="button" id="generate-btn">🚀 Generate CV</button>
+    <button type="button" onclick="generateCV()">🚀 Generate CV</button>
   </form>
   
   <div id="cvPreview" class="cv-preview"></div>
-  <button id="downloadBtn" style="display:none;">📥 Download PDF</button>
+  <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">📥 Download PDF</button>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="script.js"></script>
+
 </body>
 </html>
