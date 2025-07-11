@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KABI RAJ BHATT</title>
-    <link rel="stylesheet" href="stylesmain.css">
+    <link rel="stylesheet" href="stylesmain.css" />
 </head>
 <body>
     <div class="overlay"></div>
@@ -12,8 +12,10 @@
         <h1>KABI RAJ BHATT</h1>
         <h2 id="age">Calculating...</h2>
         <div id="time"></div>
-        <div class="slogan">"आफ्ना जरा साँध्नुस्, पुर्खौली कथाहरू बाँड्नुस्, र पुस्तौँसम्म सांस्कृतिक सम्पदा जोगाउनुस्।" एक सकारात्मक सोच तपाईको जीवन बदल्न सक्छ।</div>
-        <button class="enter-btn" onclick="enterSite()">Enter</button>
+        <div class="slogan">
+            "आफ्ना जरा साँध्नुस्, पुर्खौली कथाहरू बाँड्नुस्, र पुस्तौँसम्म सांस्कृतिक सम्पदा जोगाउनुस्।" एक सकारात्मक सोच तपाईको जीवन बदल्न सक्छ।
+        </div>
+        <button class="enter-btn" onclick="enterSite()">MAKE A CV IN 1 CLICK</button>
         <button class="socialmedia-btn" onclick="socialmediaSite()">Our Ancestors</button>
         <button class="photo-btn" onclick="goToPhotoPage()">View Photo Gallery</button>
         <button class="back-btn" onclick="goBack()">Back to Home</button>
@@ -23,9 +25,9 @@
         // Real-Time Clock
         function updateTime() {
             let now = new Date();
-            let hours = now.getHours().toString().padStart(2, '0');
-            let minutes = now.getMinutes().toString().padStart(2, '0');
-            let seconds = now.getSeconds().toString().padStart(2, '0');
+            let hours = now.getHours().toString().padStart(2, "0");
+            let minutes = now.getMinutes().toString().padStart(2, "0");
+            let seconds = now.getSeconds().toString().padStart(2, "0");
             document.getElementById("time").innerText = `${hours}:${minutes}:${seconds}`;
         }
         setInterval(updateTime, 1000);
@@ -64,7 +66,9 @@
                 years -= 1;
             }
 
-            document.getElementById("age").innerText = `Age: ${years} years, ${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+            document.getElementById(
+                "age"
+            ).innerText = `Age: ${years} years, ${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
         }
         setInterval(() => calculateAge("1997-03-17T04:00:00"), 1000);
 
@@ -78,7 +82,7 @@
         }
 
         function goToPhotoPage() {
-            window.location.href = "photos.html"; 
+            window.location.href = "photos.html";
         }
 
         function goBack() {
