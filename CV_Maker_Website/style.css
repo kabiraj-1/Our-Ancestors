@@ -1,75 +1,96 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background: #f0f2f5;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
   margin: 0;
-  padding: 20px;
+  padding: 0;
 }
+
 .container {
   max-width: 900px;
-  background: white;
-  padding: 20px 30px;
-  margin: auto;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
-h1, h3 {
+
+h1 {
   text-align: center;
   color: #2c3e50;
 }
-input, textarea {
+
+input, textarea, button {
   width: 100%;
   margin: 10px 0;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 16px;
 }
+
 textarea {
   resize: vertical;
 }
+
 button {
-  padding: 10px 20px;
-  margin-top: 10px;
-  font-size: 16px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.add-btn {
+  background-color: #2ecc71;
+}
+
+.remove-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
 }
-.add-btn {
-  background-color: #2980b9;
-  color: white;
-  border: none;
-}
-.remove-btn {
-  background: #e74c3c;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-}
-#cvPreview {
-  margin-top: 30px;
-  border: 1px solid #ccc;
-  padding: 20px;
-}
-#cvPreview table {
-  width: 100%;
-  border-collapse: collapse;
-}
-#cvPreview th, #cvPreview td {
-  border: 1px solid #999;
-  padding: 5px 10px;
-}
-#cv img {
-  float: right;
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #2c3e50;
-}
+
 .dynamic-rows .row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
+
 .dynamic-rows .row input {
-  flex: 1 1 30%;
+  flex: 1;
+}
+
+#cvPreview {
+  margin-top: 2rem;
+  background: #fafafa;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+}
+
+#cv img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  float: right;
+  margin-left: 20px;
+  border: 2px solid #2c3e50;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
 }
