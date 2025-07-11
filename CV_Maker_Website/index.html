@@ -4,117 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Professional CV Maker with Photo Upload</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-<style>
-  body {
-    font-family: 'Roboto', sans-serif;
-    background: #f4f6f9;
-    margin: 0;
-    padding: 20px;
-  }
-  .container {
-    max-width: 900px;
-    margin: auto;
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  }
-  h1 {
-    text-align: center;
-    color: #2c3e50;
-  }
-  form input,
-  form textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-  }
-  input[type="file"] {
-    padding: 6px;
-  }
-  button {
-    background: #2980b9;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  button:hover {
-    background: #1c5980;
-  }
-  .cv-preview {
-    margin-top: 30px;
-    background: #ecf0f1;
-    padding: 20px;
-    border-radius: 10px;
-    display: block;
-    color: #333;
-  }
-  #downloadBtn {
-    display: none;
-  }
-  /* CV styling */
-  #cv {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    color: #333;
-  }
-  #cv h1 {
-    text-align: center;
-    margin-bottom: 5px;
-  }
-  #cv h2 {
-    text-align: center;
-    margin-top: 0;
-    color: #555;
-  }
-  #cv section {
-    margin-top: 30px;
-  }
-  #cv section h3 {
-    border-bottom: 2px solid #2980b9;
-    padding-bottom: 5px;
-    color: #2980b9;
-  }
-  #cv table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  #cv table, #cv th, #cv td {
-    border: 1px solid #ddd;
-  }
-  #cv th, #cv td {
-    padding: 8px;
-  }
-  #cv th {
-    background: #2980b9;
-    color: white;
-  }
-  #cv ul {
-    padding-left: 20px;
-  }
-  #photo-container {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  #photo-container img {
-    max-width: 150px;
-    border-radius: 50%;
-    border: 3px solid #2980b9;
-  }
-</style>
+<link href="style.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -127,10 +18,14 @@
     <input type="text" id="phone" placeholder="Phone Number" required />
     <input type="text" id="address" placeholder="Address" required />
     <textarea id="summary" placeholder="Professional Summary (Short & Powerful)"></textarea>
-    <textarea id="education" placeholder="Education (e.g., BBS, MBS, Civil Diploma...)"></textarea>
-    <textarea id="experience" placeholder="Experience (Jobs, Internships, Freelance...)"></textarea>
-    <textarea id="skills" placeholder="Skills (e.g., Communication, Programming, AutoCAD...)"></textarea>
-    <textarea id="certifications" placeholder="Certifications & Training (Optional)"></textarea>
+    <textarea id="education" placeholder="Education CSV format:
+S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Division
+1,SLC,Baijnath H S School,Account & Economics,2069,First
+2,+2 (Management),Chandra Surya Bal H S School,Account & Marketing,2073,Second
+..."></textarea>
+    <textarea id="experience" placeholder="Experience (one per line)"></textarea>
+    <textarea id="skills" placeholder="Skills (one per line)"></textarea>
+    <textarea id="certifications" placeholder="Certifications & Training (Optional, one per line)"></textarea>
     <label for="photo">Upload Your Photo:</label>
     <input type="file" id="photo" accept="image/*" />
     
@@ -141,7 +36,6 @@
   <button id="downloadBtn" onclick="downloadPDF()">📥 Download PDF</button>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
   let photoDataURL = '';
 
@@ -156,20 +50,50 @@
     }
   });
 
+  function buildEducationTable(eduText) {
+    if (!eduText.trim()) return '<p>No education details provided.</p>';
+
+    const lines = eduText.trim().split('\n');
+    if (lines.length < 2) return `<p>${eduText.replace(/\n/g, '<br>')}</p>`;
+
+    const headers = lines[0].split(',').map(h => h.trim());
+    const rows = lines.slice(1);
+
+    let table = '<table><thead><tr>';
+    headers.forEach(h => {
+      table += `<th>${h}</th>`;
+    });
+    table += '</tr></thead><tbody>';
+
+    rows.forEach(row => {
+      const cols = row.split(',').map(c => c.trim());
+      table += '<tr>';
+      cols.forEach(col => {
+        table += `<td>${col}</td>`;
+      });
+      table += '</tr>';
+    });
+
+    table += '</tbody></table>';
+    return table;
+  }
+
   function generateCV() {
     const name = document.getElementById('name').value || 'Your Name';
     const email = document.getElementById('email').value || 'your.email@example.com';
     const phone = document.getElementById('phone').value || '1234567890';
     const address = document.getElementById('address').value || 'Your Address';
     const summary = document.getElementById('summary').value || 'Professional summary goes here.';
-    const education = document.getElementById('education').value || 'List your education details.';
-    const experience = document.getElementById('experience').value || 'List your work experience.';
-    const skills = document.getElementById('skills').value || 'List your skills.';
-    const certifications = document.getElementById('certifications').value;
+    const education = document.getElementById('education').value || '';
+    const experience = document.getElementById('experience').value || '';
+    const skills = document.getElementById('skills').value || '';
+    const certifications = document.getElementById('certifications').value || '';
 
     const photoHtml = photoDataURL
       ? `<div id="photo-container"><img src="${photoDataURL}" alt="Profile Photo" /></div>`
       : '';
+
+    const educationTableHTML = buildEducationTable(education);
 
     const preview = `
       <div id="cv">
@@ -189,23 +113,29 @@
 
         <section>
           <h3>Education</h3>
-          <p>${education.replace(/\n/g, '<br>')}</p>
+          ${educationTableHTML}
         </section>
 
         <section>
           <h3>Experience</h3>
-          <p>${experience.replace(/\n/g, '<br>')}</p>
+          <ul class="experience-list">
+            ${experience.split('\n').map(item => `<li>${item.trim()}</li>`).join('')}
+          </ul>
         </section>
 
         <section>
           <h3>Skills</h3>
-          <p>${skills.replace(/\n/g, '<br>')}</p>
+          <ul class="skills-list">
+            ${skills.split('\n').map(item => `<li>${item.trim()}</li>`).join('')}
+          </ul>
         </section>
 
         ${certifications ? `
           <section>
             <h3>Certifications & Training</h3>
-            <p>${certifications.replace(/\n/g, '<br>')}</p>
+            <ul class="training-list">
+              ${certifications.split('\n').map(item => `<li>${item.trim()}</li>`).join('')}
+            </ul>
           </section>` : ''}
       </div>
     `;
@@ -229,17 +159,31 @@
     }).save();
   }
 
-  // Optional: Generate demo CV on page load
+  // Demo data on load
   window.onload = () => {
     document.getElementById('name').value = 'Kabiraj Bhatt';
     document.getElementById('email').value = 'bhattkabiraj255@gmail.com';
     document.getElementById('phone').value = '9847546823, 9812753490';
     document.getElementById('address').value = 'Shuklaphanta 01, Kanchanpur';
     document.getElementById('summary').value = `To augment my career in a Government sector where dynamism is the key concern and have enough scope to utilize my qualification along with the proper use of my vision, positive attitude, interpersonal relationship, and communication skills in order to be a part of the best practices and ideas.`;
-    document.getElementById('education').value = `SLC - Baijnath H S School - Account & Economics - 2069 - First\n+2 (Management) - Chandra Surya Bal H S School - Account & Marketing - 2073 - Second\nBBS (TU) - Krishna Baijnath Multiple Campus - Finance - 2080 - Second\nMBS (TU) - Janjyoti Multiple Campus - Finance - Running\nDiploma in Civil Engineering - Shuklaphanta Polytechnic Institute - Running`;
-    document.getElementById('experience').value = `10 Months as a computer operator at Shuklaphanta 01 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).\n45 Days as a data collector at Shuklaphanta 01 office.\n2 Months as a computer operator at Shuklaphanta 04 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).\n1 Month as a data collector for Rastriya Janganana Bibag (2078).\n3 Years as a computer operator at Bipin Books & Stationers, Dhangadhi, Kailali, Nepal.`;
-    document.getElementById('skills').value = 'Computer Operator, Data Entry, MS Office, Communication, Basic Mobile Repairing';
-    document.getElementById('certifications').value = 'Operator in Computer Training from CCT Computer Centre.\nBasic Hard & Software course in Mobile Repairing from Raj Technical Institute, Azadpur, Delhi, India.';
+    document.getElementById('education').value = `S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Division
+1,SLC,Baijnath H S School,Account & Economics,2069,First
+2,+2 (Management),Chandra Surya Bal H S School,Account & Marketing,2073,Second
+3,BBS (TU),Krishna Baijnath Multiple Campus,Finance,2080,Second
+4,MBS (TU),Janjyoti Multiple Campus,Finance,Running,-
+5,Diploma in Civil Engineering,Shuklaphanta Polytechnic Institute,-,Running,-`;
+    document.getElementById('experience').value = `10 Months as a computer operator at Shuklaphanta 01 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).
+45 Days as a data collector at Shuklaphanta 01 office.
+2 Months as a computer operator at Shuklaphanta 04 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).
+1 Month as a data collector for Rastriya Janganana Bibag (2078).
+3 Years as a computer operator at Bipin Books & Stationers, Dhangadhi, Kailali, Nepal.`;
+    document.getElementById('skills').value = `Computer Operator
+Data Entry
+MS Office
+Communication
+Basic Mobile Repairing`;
+    document.getElementById('certifications').value = `Operator in Computer Training from CCT Computer Centre.
+Basic Hard & Software course in Mobile Repairing from Raj Technical Institute, Azadpur, Delhi, India.`;
 
     generateCV();
   };
