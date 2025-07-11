@@ -3,55 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🌟 CV Maker - Kabiraj Bhatt</title>
+  <title>KABIRAJ'S CV MAKER</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.0/html-docx.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>🌟 CV Maker</h1>
-
-    <form id="cvForm" onsubmit="return false;">
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="text" id="phone" placeholder="Phone Number" required />
-      <input type="text" id="address" placeholder="Address" required />
-      <textarea id="summary" placeholder="Professional Summary (Short & Powerful)"></textarea>
-
-      <h3>Education</h3>
-      <div id="education-rows" class="dynamic-rows"></div>
-      <button type="button" id="add-edu-btn" class="add-btn">+ Add Education</button>
-
-      <h3>Experience</h3>
-      <div id="experience-rows" class="dynamic-rows"></div>
-      <button type="button" id="add-exp-btn" class="add-btn">+ Add Experience</button>
-
-      <h3>Skills</h3>
-      <div id="skills-rows" class="dynamic-rows"></div>
-      <button type="button" id="add-skill-btn" class="add-btn">+ Add Skill</button>
-
-      <h3>Certifications & Training</h3>
-      <div id="certifications-rows" class="dynamic-rows"></div>
-      <button type="button" id="add-cert-btn" class="add-btn">+ Add Certification/Training</button>
-
-      <label for="photo">Upload Your Photo:</label>
-      <input type="file" id="photo" accept="image/*" />
-
-      <button type="button" onclick="generateCV()">🚀 Generate CV</button>
-    </form>
-
-    <div style="margin-top: 10px;">
-      <button id="toggleDemoBtn" onclick="toggleDemo()">👁 Show/Hide Demo CV</button>
+    <h1>KABIRAJ'S CV MAKER</h1>
+    <div class="photo-upload">
+      <label>Upload Your Photo:</label>
+      <input type="file" id="photoInput" accept="image/*" />
     </div>
 
-    <div id="cvPreview" class="cv-preview"></div>
+    <div id="cv-preview" class="cv-box">
+      <img src="kabi.jpg" alt="Profile" id="cv-photo" />
+      <h2>Kabiraj Bhatt</h2>
+      <p><strong>Email:</strong> bhattkabiraj255@gmail.com</p>
+      <p><strong>Phone:</strong> 9847546823</p>
+      <p><strong>Address:</strong> Shuklaphanta 01, Kanchanpur</p>
 
-    <div id="cvActions">
-      <button id="downloadBtn" onclick="downloadPDF()">📥 Download PDF</button>
-      <button id="downloadPhotoBtn" onclick="downloadPhoto()">📷 Download Photo</button>
+      <section>
+        <h3>Professional Summary</h3>
+        <p>
+          To augment my career in a Government sector where dynamism is the key concern and have enough scope to utilize my qualification along with the proper use of my vision, positive attitude, interpersonal relationship, and communication skills in order to be a part of the best practices and ideas.
+        </p>
+      </section>
+
+      <section>
+        <h3>Education</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>S.N.</th>
+              <th>Qualification</th>
+              <th>School/College</th>
+              <th>Major</th>
+              <th>Year</th>
+              <th>Division</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>SLC</td><td>Baijnath H S School</td><td>Account & Economics</td><td>2069</td><td>First</td></tr>
+            <tr><td>2</td><td>+2 (Management)</td><td>Chandra Surya Bal H S School</td><td>Account & Marketing</td><td>2073</td><td>Second</td></tr>
+            <tr><td>3</td><td>BBS (TU)</td><td>Krishna Baijnath Multiple Campus</td><td>Finance</td><td>2080</td><td>Second</td></tr>
+            <tr><td>4</td><td>MBS (TU)</td><td>Janjyoti Multiple Campus</td><td>Finance</td><td>Running</td><td>-</td></tr>
+            <tr><td>5</td><td>Diploma in Civil Engineering</td><td>Shuklaphanta Polytechnic Institute</td><td>-</td><td>Running</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h3>Skills</h3>
+        <ul>
+          <li>Computer Operator</li>
+          <li>Data Entry</li>
+          <li>MS Office</li>
+          <li>Communication</li>
+          <li>Mobile Repairing</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Languages</h3>
+        <ul>
+          <li>English – Reading: Best, Writing: Good, Listening: Better</li>
+          <li>Nepali – Reading: Best, Writing: Best, Listening: Best</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Certifications & Training</h3>
+        <ul>
+          <li>Computer Operator Training – CCT Computer Centre</li>
+          <li>Mobile Repairing – Raj Technical Institute, Delhi</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Experience</h3>
+        <ul>
+          <li>10 Months – Computer Operator, Shuklaphanta 01</li>
+          <li>2 Months – Computer Operator, Shuklaphanta 04</li>
+          <li>45 Days – Data Collector, Shuklaphanta 01</li>
+          <li>1 Month – Data Collector, Rastriya Janganana Bibag (2078)</li>
+          <li>3 Years – Computer Operator, Bipin Books & Stationers</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="button-group">
+      <button onclick="downloadJPG()">📷 Download as JPG</button>
+      <button onclick="downloadPDF()">📄 Download as PDF</button>
+      <button onclick="downloadDOC()">📝 Download as Word</button>
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
