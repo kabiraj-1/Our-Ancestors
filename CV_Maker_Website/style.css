@@ -3,29 +3,24 @@ body {
   background: #f4f6f9;
   margin: 0;
   padding: 0;
+  color: #333;
 }
 
 .container {
   max-width: 900px;
   margin: 2rem auto;
-  background: #fff;
+  background: white;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  text-align: center;
-  color: #2c3e50;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 input, textarea, button {
   width: 100%;
-  margin: 10px 0;
   padding: 10px;
+  margin: 8px 0;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 5px;
 }
 
 textarea {
@@ -33,64 +28,70 @@ textarea {
 }
 
 button {
-  background-color: #3498db;
+  background: #2980b9;
   color: white;
   border: none;
   cursor: pointer;
+  font-size: 16px;
+  margin-top: 5px;
 }
 
 button:hover {
-  background-color: #2980b9;
-}
-
-.add-btn {
-  background-color: #2ecc71;
-}
-
-.remove-btn {
-  background-color: #e74c3c;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  background: #1c5980;
 }
 
 .dynamic-rows .row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
 .dynamic-rows .row input {
   flex: 1;
 }
 
-#cvPreview {
-  margin-top: 2rem;
-  background: #fafafa;
-  padding: 1.5rem;
+.remove-btn {
+  background: #e74c3c;
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#cv {
+  background: #fff;
+  padding: 20px;
+  margin-top: 30px;
   border: 1px solid #ddd;
+  border-radius: 10px;
 }
 
 #cv img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
   float: right;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #333;
   margin-left: 20px;
-  border: 2px solid #2c3e50;
 }
 
-table {
+#cv table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
-th, td {
+#cv table, #cv th, #cv td {
   border: 1px solid #ccc;
+}
+
+#cv th, #cv td {
   padding: 8px;
   text-align: left;
+}
+
+#cv ul {
+  padding-left: 20px;
 }
