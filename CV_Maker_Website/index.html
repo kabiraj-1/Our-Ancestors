@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Professional CV Maker with Education Rows</title>
+<title>Professional CV Maker with Dynamic Sections</title>
 <link href="style.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  /* Styles for dynamic education input rows */
-  #education-rows {
+  /* Dynamic rows container */
+  .dynamic-rows {
     margin: 10px 0 20px 0;
   }
-  .edu-row {
+  .row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 10px;
   }
-  .edu-row input {
+  .row input {
+    flex: 1;
     padding: 8px;
     font-size: 14px;
-    flex: 1 1 120px;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  .edu-row button.remove-btn {
+  .row button.remove-btn {
     background: #e74c3c;
     border: none;
     color: white;
@@ -32,7 +32,7 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  #add-edu-btn {
+  .add-btn {
     background: #2980b9;
     border: none;
     color: white;
@@ -40,8 +40,9 @@
     font-size: 16px;
     border-radius: 6px;
     cursor: pointer;
+    margin-top: 5px;
   }
-  #add-edu-btn:hover {
+  .add-btn:hover {
     background: #1c5980;
   }
 </style>
@@ -49,7 +50,7 @@
 <body>
 
 <div class="container">
-  <h1>🌟 Professional CV Maker with Photo Upload & Dynamic Education</h1>
+  <h1>🌟 Professional CV Maker with Dynamic Sections</h1>
   
   <form id="cvForm" onsubmit="return false;">
     <input type="text" id="name" placeholder="Full Name" required />
@@ -58,15 +59,26 @@
     <input type="text" id="address" placeholder="Address" required />
     <textarea id="summary" placeholder="Professional Summary (Short & Powerful)"></textarea>
 
+    <!-- Education -->
     <h3>Education</h3>
-    <div id="education-rows">
-      <!-- Education rows added here dynamically -->
-    </div>
-    <button type="button" id="add-edu-btn">+ Add Education</button>
+    <div id="education-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-edu-btn" class="add-btn">+ Add Education</button>
 
-    <textarea id="experience" placeholder="Experience (one per line)"></textarea>
-    <textarea id="skills" placeholder="Skills (one per line)"></textarea>
-    <textarea id="certifications" placeholder="Certifications & Training (Optional, one per line)"></textarea>
+    <!-- Experience -->
+    <h3>Experience</h3>
+    <div id="experience-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-exp-btn" class="add-btn">+ Add Experience</button>
+
+    <!-- Skills -->
+    <h3>Skills</h3>
+    <div id="skills-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-skill-btn" class="add-btn">+ Add Skill</button>
+
+    <!-- Certifications & Training -->
+    <h3>Certifications & Training</h3>
+    <div id="certifications-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-cert-btn" class="add-btn">+ Add Certification/Training</button>
+
     <label for="photo">Upload Your Photo:</label>
     <input type="file" id="photo" accept="image/*" />
     
@@ -80,12 +92,11 @@
 <script>
   let photoDataURL = '';
 
-  // Add initial education row on load
+  // Add row functions
   function addEducationRow(data = {}) {
     const container = document.getElementById('education-rows');
     const row = document.createElement('div');
-    row.classList.add('edu-row');
-
+    row.classList.add('row');
     row.innerHTML = `
       <input type="text" name="sno" placeholder="S. No." value="${data.sno || ''}" />
       <input type="text" name="qualification" placeholder="Academic Qualification" value="${data.qualification || ''}" />
@@ -93,18 +104,55 @@
       <input type="text" name="major" placeholder="Major Subject" value="${data.major || ''}" />
       <input type="text" name="year" placeholder="Passed Year" value="${data.year || ''}" />
       <input type="text" name="division" placeholder="Division" value="${data.division || ''}" />
-      <button type="button" class="remove-btn" onclick="removeEducationRow(this)">✖</button>
+      <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
     `;
-
     container.appendChild(row);
   }
 
-  function removeEducationRow(btn) {
-    btn.parentElement.remove();
+  function addExperienceRow(data = '') {
+    const container = document.getElementById('experience-rows');
+    const row = document.createElement('div');
+    row.classList.add('row');
+    row.innerHTML = `
+      <input type="text" placeholder="Experience details" value="${data}" />
+      <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    `;
+    container.appendChild(row);
   }
 
-  document.getElementById('add-edu-btn').addEventListener('click', () => addEducationRow());
+  function addSkillRow(data = '') {
+    const container = document.getElementById('skills-rows');
+    const row = document.createElement('div');
+    row.classList.add('row');
+    row.innerHTML = `
+      <input type="text" placeholder="Skill" value="${data}" />
+      <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    `;
+    container.appendChild(row);
+  }
 
+  function addCertificationRow(data = '') {
+    const container = document.getElementById('certifications-rows');
+    const row = document.createElement('div');
+    row.classList.add('row');
+    row.innerHTML = `
+      <input type="text" placeholder="Certification or Training" value="${data}" />
+      <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    `;
+    container.appendChild(row);
+  }
+
+  function removeRow(button) {
+    button.parentElement.remove();
+  }
+
+  // Add buttons event listeners
+  document.getElementById('add-edu-btn').addEventListener('click', () => addEducationRow());
+  document.getElementById('add-exp-btn').addEventListener('click', () => addExperienceRow());
+  document.getElementById('add-skill-btn').addEventListener('click', () => addSkillRow());
+  document.getElementById('add-cert-btn').addEventListener('click', () => addCertificationRow());
+
+  // Photo upload handler
   document.getElementById('photo').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
@@ -116,11 +164,11 @@
     }
   });
 
+  // Build education table from inputs
   function buildEducationTableFromInputs() {
-    const rows = document.querySelectorAll('#education-rows .edu-row');
+    const rows = document.querySelectorAll('#education-rows .row');
     if (rows.length === 0) return '<p>No education details provided.</p>';
 
-    // Build headers (fixed)
     const headers = ['S. No.', 'Academic Qualification', 'College/School Name', 'Major Subject', 'Passed Year', 'Division'];
 
     let table = '<table><thead><tr>';
@@ -136,7 +184,6 @@
         row.querySelector('input[name="year"]').value.trim(),
         row.querySelector('input[name="division"]').value.trim()
       ];
-      // Only add row if at least one field is not empty
       if (cells.some(cell => cell !== '')) {
         table += '<tr>';
         cells.forEach(cell => table += `<td>${cell || '-'}</td>`);
@@ -147,21 +194,32 @@
     return table;
   }
 
+  // Build list from dynamic inputs for Experience, Skills, Certifications
+  function buildListFromInputs(containerId) {
+    const rows = document.querySelectorAll(`#${containerId} .row input`);
+    const items = [];
+    rows.forEach(input => {
+      const val = input.value.trim();
+      if (val) items.push(val);
+    });
+    if (items.length === 0) return '<p>None provided.</p>';
+    return `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+  }
+
   function generateCV() {
     const name = document.getElementById('name').value || 'Your Name';
     const email = document.getElementById('email').value || 'your.email@example.com';
     const phone = document.getElementById('phone').value || '1234567890';
     const address = document.getElementById('address').value || 'Your Address';
     const summary = document.getElementById('summary').value || 'Professional summary goes here.';
-    const experience = document.getElementById('experience').value || '';
-    const skills = document.getElementById('skills').value || '';
-    const certifications = document.getElementById('certifications').value || '';
+    const educationTableHTML = buildEducationTableFromInputs();
+    const experienceList = buildListFromInputs('experience-rows');
+    const skillsList = buildListFromInputs('skills-rows');
+    const certList = buildListFromInputs('certifications-rows');
 
     const photoHtml = photoDataURL
       ? `<div id="photo-container"><img src="${photoDataURL}" alt="Profile Photo" /></div>`
       : '';
-
-    const educationTableHTML = buildEducationTableFromInputs();
 
     const preview = `
       <div id="cv">
@@ -186,25 +244,18 @@
 
         <section>
           <h3>Experience</h3>
-          <ul class="experience-list">
-            ${experience.split('\n').map(item => `<li>${item.trim()}</li>`).join('')}
-          </ul>
+          ${experienceList}
         </section>
 
         <section>
           <h3>Skills</h3>
-          <ul class="skills-list">
-            ${skills.split('\n').map(item => `<li>${item.trim()}</li>`).join('')}
-          </ul>
+          ${skillsList}
         </section>
 
-        ${certifications ? `
-          <section>
-            <h3>Certifications & Training</h3>
-            <ul class="training-list">
-              ${certifications.split('\n').map(item => `<li>${item.trim()}</li>`).join('')}
-            </ul>
-          </section>` : ''}
+        <section>
+          <h3>Certifications & Training</h3>
+          ${certList}
+        </section>
       </div>
     `;
 
@@ -235,7 +286,7 @@
     document.getElementById('address').value = 'Shuklaphanta 01, Kanchanpur';
     document.getElementById('summary').value = `To augment my career in a Government sector where dynamism is the key concern and have enough scope to utilize my qualification along with the proper use of my vision, positive attitude, interpersonal relationship, and communication skills in order to be a part of the best practices and ideas.`;
 
-    // Clear education rows and add demo rows
+    // Education demo rows
     document.getElementById('education-rows').innerHTML = '';
     addEducationRow({sno:'1', qualification:'SLC', college:'Baijnath H S School', major:'Account & Economics', year:'2069', division:'First'});
     addEducationRow({sno:'2', qualification:'+2 (Management)', college:'Chandra Surya Bal H S School', major:'Account & Marketing', year:'2073', division:'Second'});
@@ -243,18 +294,26 @@
     addEducationRow({sno:'4', qualification:'MBS (TU)', college:'Janjyoti Multiple Campus', major:'Finance', year:'Running', division:'-'});
     addEducationRow({sno:'5', qualification:'Diploma in Civil Engineering', college:'Shuklaphanta Polytechnic Institute', major:'-', year:'Running', division:'-'});
 
-    document.getElementById('experience').value = `10 Months as a computer operator at Shuklaphanta 01 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).
-45 Days as a data collector at Shuklaphanta 01 office.
-2 Months as a computer operator at Shuklaphanta 04 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).
-1 Month as a data collector for Rastriya Janganana Bibag (2078).
-3 Years as a computer operator at Bipin Books & Stationers, Dhangadhi, Kailali, Nepal.`;
-    document.getElementById('skills').value = `Computer Operator
-Data Entry
-MS Office
-Communication
-Basic Mobile Repairing`;
-    document.getElementById('certifications').value = `Operator in Computer Training from CCT Computer Centre.
-Basic Hard & Software course in Mobile Repairing from Raj Technical Institute, Azadpur, Delhi, India.`;
+    // Experience demo
+    document.getElementById('experience-rows').innerHTML = '';
+    addExperienceRow(`10 Months as a computer operator at Shuklaphanta 01 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).`);
+    addExperienceRow(`45 Days as a data collector at Shuklaphanta 01 office.`);
+    addExperienceRow(`2 Months as a computer operator at Shuklaphanta 04 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).`);
+    addExperienceRow(`1 Month as a data collector for Rastriya Janganana Bibag (2078).`);
+    addExperienceRow(`3 Years as a computer operator at Bipin Books & Stationers, Dhangadhi, Kailali, Nepal.`);
+
+    // Skills demo
+    document.getElementById('skills-rows').innerHTML = '';
+    addSkillRow('Computer Operator');
+    addSkillRow('Data Entry');
+    addSkillRow('MS Office');
+    addSkillRow('Communication');
+    addSkillRow('Basic Mobile Repairing');
+
+    // Certifications demo
+    document.getElementById('certifications-rows').innerHTML = '';
+    addCertificationRow('Operator in Computer Training from CCT Computer Centre.');
+    addCertificationRow('Basic Hard & Software course in Mobile Repairing from Raj Technical Institute, Azadpur, Delhi, India.');
 
     generateCV();
   };
