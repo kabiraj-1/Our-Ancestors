@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Professional CV Maker</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Professional CV Maker with Dynamic Sections</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🌟 World-Class CV Maker</h1>
-    <form id="cvForm">
-      <input type="text" placeholder="Full Name" id="name" required />
-      <input type="email" placeholder="Email" id="email" required />
-      <input type="text" placeholder="Phone Number" id="phone" required />
-      <input type="text" placeholder="Address" id="address" required />
-      <textarea placeholder="Professional Summary (Short & Powerful)" id="summary"></textarea>
-      <textarea placeholder="Education (One item per line)" id="education"></textarea>
-      <textarea placeholder="Experience (One item per line)" id="experience"></textarea>
-      <textarea placeholder="Skills (One item per line)" id="skills"></textarea>
-      <textarea placeholder="Certifications & Training (Optional, one item per line)" id="certifications"></textarea>
-      <button type="button" onclick="generateCV()">🚀 Generate CV</button>
-    </form>
-    <div id="cvPreview" class="cv-preview"></div>
-    <button id="downloadBtn" onclick="downloadPDF()">📥 Download PDF</button>
-  </div>
 
-  <!-- pdf export library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="script.js"></script>
+<div class="container">
+  <h1>🌟 Professional CV Maker with Dynamic Sections</h1>
+  
+  <form id="cvForm" onsubmit="return false;">
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="text" id="phone" placeholder="Phone Number" required />
+    <input type="text" id="address" placeholder="Address" required />
+    <textarea id="summary" placeholder="Professional Summary (Short & Powerful)"></textarea>
+
+    <!-- Education -->
+    <h3>Education</h3>
+    <div id="education-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-edu-btn" class="add-btn">+ Add Education</button>
+
+    <!-- Experience -->
+    <h3>Experience</h3>
+    <div id="experience-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-exp-btn" class="add-btn">+ Add Experience</button>
+
+    <!-- Skills -->
+    <h3>Skills</h3>
+    <div id="skills-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-skill-btn" class="add-btn">+ Add Skill</button>
+
+    <!-- Certifications & Training -->
+    <h3>Certifications & Training</h3>
+    <div id="certifications-rows" class="dynamic-rows"></div>
+    <button type="button" id="add-cert-btn" class="add-btn">+ Add Certification/Training</button>
+
+    <label for="photo">Upload Your Photo:</label>
+    <input type="file" id="photo" accept="image/*" />
+    
+    <button type="button" id="generate-btn">🚀 Generate CV</button>
+  </form>
+  
+  <div id="cvPreview" class="cv-preview"></div>
+  <button id="downloadBtn" style="display:none;">📥 Download PDF</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
