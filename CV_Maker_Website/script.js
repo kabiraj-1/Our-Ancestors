@@ -1,130 +1,102 @@
-let photoDataURL = "";
+let photoDataURL = '';
 
-document.getElementById("photo").addEventListener("change", function (e) {
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    photoDataURL = event.target.result;
-  };
-  reader.readAsDataURL(e.target.files[0]);
+document.getElementById('add-edu-btn').onclick = () => addEducationRow();
+document.getElementById('add-exp-btn').onclick = () => addTextRow('experience-rows', 'Experience');
+document.getElementById('add-skill-btn').onclick = () => addTextRow('skills-rows', 'Skill');
+document.getElementById('add-cert-btn').onclick = () => addTextRow('certifications-rows', 'Certification');
+
+document.getElementById('photo').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      photoDataURL = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 });
 
-function removeRow(button) {
-  button.parentElement.remove();
-}
-
-function addEducationRow(data = {}) {
-  const container = document.getElementById("education-rows");
-  const row = document.createElement("div");
-  row.className = "row";
+function addEducationRow() {
+  const row = document.createElement('div');
+  row.classList.add('row');
   row.innerHTML = `
-    <input name="sno" placeholder="S.No" value="${data.sno || ''}" />
-    <input name="qualification" placeholder="Qualification" value="${data.qualification || ''}" />
-    <input name="college" placeholder="College" value="${data.college || ''}" />
-    <input name="major" placeholder="Major" value="${data.major || ''}" />
-    <input name="year" placeholder="Year" value="${data.year || ''}" />
-    <input name="division" placeholder="Division" value="${data.division || ''}" />
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    <input placeholder="S. No.">
+    <input placeholder="Degree">
+    <input placeholder="School/College">
+    <input placeholder="Major">
+    <input placeholder="Year">
+    <input placeholder="Division">
+    <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
   `;
-  container.appendChild(row);
+  document.getElementById('education-rows').appendChild(row);
 }
 
-function addExperienceRow(text = "") {
-  const container = document.getElementById("experience-rows");
-  const row = document.createElement("div");
-  row.className = "row";
+function addTextRow(sectionId, placeholder) {
+  const row = document.createElement('div');
+  row.classList.add('row');
   row.innerHTML = `
-    <input value="${text}" placeholder="Experience Detail" />
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
+    <input placeholder="${placeholder}">
+    <button class="remove-btn" onclick="this.parentElement.remove()">✖</button>
   `;
-  container.appendChild(row);
-}
-
-function addSkillRow(text = "") {
-  const container = document.getElementById("skills-rows");
-  const row = document.createElement("div");
-  row.className = "row";
-  row.innerHTML = `
-    <input value="${text}" placeholder="Skill" />
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
-  `;
-  container.appendChild(row);
-}
-
-function addCertificationRow(text = "") {
-  const container = document.getElementById("certifications-rows");
-  const row = document.createElement("div");
-  row.className = "row";
-  row.innerHTML = `
-    <input value="${text}" placeholder="Certification" />
-    <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
-  `;
-  container.appendChild(row);
-}
-
-// Add button event
-document.getElementById("add-edu-btn").onclick = () => addEducationRow();
-document.getElementById("add-exp-btn").onclick = () => addExperienceRow();
-document.getElementById("add-skill-btn").onclick = () => addSkillRow();
-document.getElementById("add-cert-btn").onclick = () => addCertificationRow();
-
-function buildListFromInputs(containerId) {
-  const rows = document.querySelectorAll(`#${containerId} .row input`);
-  const items = [];
-  rows.forEach(input => {
-    const val = input.value.trim();
-    if (val) items.push(val);
-  });
-  return items.length > 0 ? `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>` : "<p>None provided.</p>";
-}
-
-function buildEducationTable() {
-  const rows = document.querySelectorAll("#education-rows .row");
-  if (rows.length === 0) return "<p>No education added.</p>";
-  let html = "<table><thead><tr><th>S.No</th><th>Qualification</th><th>College</th><th>Major</th><th>Year</th><th>Division</th></tr></thead><tbody>";
-  rows.forEach(row => {
-    const values = [...row.querySelectorAll("input")].map(input => input.value || "-");
-    html += `<tr>${values.map(val => `<td>${val}</td>`).join("")}</tr>`;
-  });
-  html += "</tbody></table>";
-  return html;
+  document.getElementById(sectionId).appendChild(row);
 }
 
 function generateCV() {
-  const name = document.getElementById("name").value || "Your Name";
-  const email = document.getElementById("email").value;
-  const phone = document.getElementById("phone").value;
-  const address = document.getElementById("address").value;
-  const summary = document.getElementById("summary").value;
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const address = document.getElementById('address').value;
+  const summary = document.getElementById('summary').value;
 
-  const img = photoDataURL ? `<img src="${photoDataURL}" alt="Photo" />` : `<img src="kabi.jpg" alt="Demo Photo" />`;
+  let educationHTML = '<table><tr><th>S.No.</th><th>Qualification</th><th>College</th><th>Major</th><th>Year</th><th>Division</th></tr>';
+  document.querySelectorAll('#education-rows .row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    if ([...inputs].some(input => input.value.trim() !== '')) {
+      educationHTML += `<tr>${[...inputs].map(i => `<td>${i.value}</td>`).join('')}</tr>`;
+    }
+  });
+  educationHTML += '</table>';
+
+  const buildList = (id) => {
+    const rows = document.querySelectorAll(`#${id} .row input`);
+    return `<ul>${[...rows].map(i => `<li>${i.value}</li>`).join('')}</ul>`;
+  };
+
+  const photoHTML = photoDataURL
+    ? `<img src="${photoDataURL}" alt="Profile Photo">`
+    : `<img src="kabi.jpg" alt="Demo Photo">`;
 
   const html = `
     <div id="cv">
-      ${img}
-      <h1>${name}</h1>
-      <h2>Curriculum Vitae</h2>
+      ${photoHTML}
+      <h2>${name}</h2>
       <p><strong>Email:</strong> ${email} | <strong>Phone:</strong> ${phone} | <strong>Address:</strong> ${address}</p>
-      <h3>Professional Summary</h3><p>${summary}</p>
-      <h3>Education</h3>${buildEducationTable()}
-      <h3>Experience</h3>${buildListFromInputs("experience-rows")}
-      <h3>Skills</h3>${buildListFromInputs("skills-rows")}
-      <h3>Certifications & Training</h3>${buildListFromInputs("certifications-rows")}
+      <h3>Summary</h3><p>${summary}</p>
+      <h3>Education</h3>${educationHTML}
+      <h3>Experience</h3>${buildList('experience-rows')}
+      <h3>Skills</h3>${buildList('skills-rows')}
+      <h3>Certifications</h3>${buildList('certifications-rows')}
     </div>
   `;
 
-  document.getElementById("cvPreview").innerHTML = html;
-  document.getElementById("downloadBtn").style.display = "inline-block";
+  const preview = document.getElementById('cvPreview');
+  preview.innerHTML = html;
+  document.getElementById('downloadBtn').style.display = 'block';
 }
 
 function downloadPDF() {
-  const element = document.getElementById("cv");
-  if (!element) return alert("Generate the CV first!");
-  const opt = {
-    margin: 0.5,
-    filename: "My_CV.pdf",
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
-  };
-  html2pdf().set(opt).from(element).save();
+  const cvElement = document.querySelector('#cv');
+  if (!cvElement) {
+    alert('Please generate your CV first!');
+    return;
+  }
+  // Delay is important to allow DOM to render properly
+  setTimeout(() => {
+    html2pdf().from(cvElement).set({
+      margin: 0.5,
+      filename: 'My_CV.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    }).save();
+  }, 500);
 }
