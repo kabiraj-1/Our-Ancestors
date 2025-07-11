@@ -1,195 +1,75 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f4f6f9;
-  color: #333;
+  font-family: 'Arial', sans-serif;
+  background: #f0f2f5;
   margin: 0;
-  padding: 0;
+  padding: 20px;
 }
-
 .container {
   max-width: 900px;
-  margin: 2rem auto;
   background: white;
-  padding: 2rem 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  padding: 20px 30px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
-
-h1 {
+h1, h3 {
   text-align: center;
   color: #2c3e50;
-  margin-bottom: 1.5rem;
 }
-
-input, textarea, button {
+input, textarea {
   width: 100%;
-  padding: 10px 12px;
   margin: 10px 0;
-  border: 1.8px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
-
-input:focus, textarea:focus {
-  outline: none;
-  border-color: #2980b9;
-  box-shadow: 0 0 8px rgba(41, 128, 185, 0.3);
-}
-
 textarea {
   resize: vertical;
-  min-height: 80px;
 }
-
 button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.add-btn {
   background-color: #2980b9;
   color: white;
   border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem;
-  border-radius: 8px;
-  margin-top: 15px;
-  padding: 12px 0;
-  transition: background-color 0.3s ease;
 }
-
-button:hover {
-  background-color: #1c5980;
-}
-
-.cv-preview {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: #f9f9f9;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
-}
-
-.dynamic-rows {
-  margin: 10px 0 20px 0;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.row input {
-  flex: 1 1 140px;
-  min-width: 140px;
-  padding: 8px 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.row button.remove-btn {
+.remove-btn {
   background: #e74c3c;
-  border: none;
   color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.add-btn {
-  background: #2980b9;
   border: none;
-  color: white;
-  padding: 10px 18px;
-  font-size: 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 5px;
-  display: inline-block;
-  transition: background-color 0.3s ease;
+  padding: 6px 10px;
 }
-
-.add-btn:hover {
-  background: #1c5980;
+#cvPreview {
+  margin-top: 30px;
+  border: 1px solid #ccc;
+  padding: 20px;
 }
-
-/* CV Preview styling */
-#cv {
-  max-width: 100%;
-  font-family: 'Georgia', serif;
-  color: #222;
-}
-
-#cv h1 {
-  font-size: 2.2rem;
-  margin-bottom: 4px;
-}
-
-#cv h2 {
-  font-size: 1.2rem;
-  color: #666;
-  margin-top: 0;
-  margin-bottom: 20px;
-  letter-spacing: 0.04em;
-  font-weight: normal;
-}
-
-#cv img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  float: right;
-  margin-left: 25px;
-  border: 4px solid #2980b9;
-}
-
-#cv section {
-  margin-bottom: 20px;
-}
-
-#cv section h3 {
-  border-bottom: 2px solid #2980b9;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-  color: #2980b9;
-  font-weight: 600;
-}
-
-#cv table {
+#cvPreview table {
   width: 100%;
   border-collapse: collapse;
 }
-
-#cv table th, #cv table td {
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  text-align: left;
+#cvPreview th, #cvPreview td {
+  border: 1px solid #999;
+  padding: 5px 10px;
 }
-
-#cv table th {
-  background-color: #2980b9;
-  color: white;
+#cv img {
+  float: right;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #2c3e50;
 }
-
-#cv ul {
-  padding-left: 20px;
+.dynamic-rows .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
-#downloadBtn {
-  background-color: #27ae60 !important;
-  margin-top: 15px;
-  width: 100%;
-  font-size: 1.2rem;
-  font-weight: 700;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(39,174,96,0.4);
-  transition: background-color 0.3s ease;
-}
-
-#downloadBtn:hover {
-  background-color: #1e8449 !important;
+.dynamic-rows .row input {
+  flex: 1 1 30%;
 }
