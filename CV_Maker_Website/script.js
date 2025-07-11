@@ -22,7 +22,7 @@ function addExperienceRow(data = '') {
   const row = document.createElement('div');
   row.classList.add('row');
   row.innerHTML = `
-    <input type="text" placeholder="Experience details" value="${data}" class="full-width"/>
+    <input type="text" placeholder="Experience details" value="${data}" />
     <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
   `;
   container.appendChild(row);
@@ -33,7 +33,7 @@ function addSkillRow(data = '') {
   const row = document.createElement('div');
   row.classList.add('row');
   row.innerHTML = `
-    <input type="text" placeholder="Skill" value="${data}" class="full-width"/>
+    <input type="text" placeholder="Skill" value="${data}" />
     <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
   `;
   container.appendChild(row);
@@ -44,7 +44,7 @@ function addCertificationRow(data = '') {
   const row = document.createElement('div');
   row.classList.add('row');
   row.innerHTML = `
-    <input type="text" placeholder="Certification or Training" value="${data}" class="full-width"/>
+    <input type="text" placeholder="Certification or Training" value="${data}" />
     <button type="button" class="remove-btn" onclick="removeRow(this)">✖</button>
   `;
   container.appendChild(row);
@@ -126,8 +126,8 @@ function generateCV() {
   const certList = buildListFromInputs('certifications-rows');
 
   const photoHtml = photoDataURL
-    ? `<div id="photo-container"><img src="${photoDataURL}" alt="Profile Photo" /></div>`
-    : `<div id="photo-container"><img src="kabi.jpg" alt="Profile Photo" /></div>`;
+    ? `<img src="${photoDataURL}" alt="Profile Photo" />`
+    : `<img src="kabi.jpg" alt="Profile Photo" />`; // Default demo photo
 
   const preview = `
     <div id="cv">
@@ -170,7 +170,6 @@ function generateCV() {
   const cvPreview = document.getElementById('cvPreview');
   cvPreview.innerHTML = preview;
   document.getElementById('downloadBtn').style.display = 'inline-block';
-  cvPreview.scrollIntoView({behavior: 'smooth'});
 }
 
 function downloadPDF() {
@@ -186,9 +185,6 @@ function downloadPDF() {
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
   }).save();
 }
-
-document.getElementById('generate-btn').addEventListener('click', generateCV);
-document.getElementById('downloadBtn').addEventListener('click', downloadPDF);
 
 // Demo data on load
 window.onload = () => {
