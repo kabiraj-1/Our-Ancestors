@@ -3,26 +3,67 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Professional CV Maker with Photo Upload</title>
+<title>Professional CV Maker with Education Rows</title>
 <link href="style.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  /* Styles for dynamic education input rows */
+  #education-rows {
+    margin: 10px 0 20px 0;
+  }
+  .edu-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .edu-row input {
+    padding: 8px;
+    font-size: 14px;
+    flex: 1 1 120px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .edu-row button.remove-btn {
+    background: #e74c3c;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #add-edu-btn {
+    background: #2980b9;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  #add-edu-btn:hover {
+    background: #1c5980;
+  }
+</style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🌟 Professional CV Maker with Photo Upload</h1>
+  <h1>🌟 Professional CV Maker with Photo Upload & Dynamic Education</h1>
   
-  <form id="cvForm">
+  <form id="cvForm" onsubmit="return false;">
     <input type="text" id="name" placeholder="Full Name" required />
     <input type="email" id="email" placeholder="Email" required />
     <input type="text" id="phone" placeholder="Phone Number" required />
     <input type="text" id="address" placeholder="Address" required />
     <textarea id="summary" placeholder="Professional Summary (Short & Powerful)"></textarea>
-    <textarea id="education" placeholder="Education CSV format:
-S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Division
-1,SLC,Baijnath H S School,Account & Economics,2069,First
-2,+2 (Management),Chandra Surya Bal H S School,Account & Marketing,2073,Second
-..."></textarea>
+
+    <h3>Education</h3>
+    <div id="education-rows">
+      <!-- Education rows added here dynamically -->
+    </div>
+    <button type="button" id="add-edu-btn">+ Add Education</button>
+
     <textarea id="experience" placeholder="Experience (one per line)"></textarea>
     <textarea id="skills" placeholder="Skills (one per line)"></textarea>
     <textarea id="certifications" placeholder="Certifications & Training (Optional, one per line)"></textarea>
@@ -33,11 +74,36 @@ S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Divis
   </form>
   
   <div id="cvPreview" class="cv-preview"></div>
-  <button id="downloadBtn" onclick="downloadPDF()">📥 Download PDF</button>
+  <button id="downloadBtn" onclick="downloadPDF()" style="display:none;">📥 Download PDF</button>
 </div>
 
 <script>
   let photoDataURL = '';
+
+  // Add initial education row on load
+  function addEducationRow(data = {}) {
+    const container = document.getElementById('education-rows');
+    const row = document.createElement('div');
+    row.classList.add('edu-row');
+
+    row.innerHTML = `
+      <input type="text" name="sno" placeholder="S. No." value="${data.sno || ''}" />
+      <input type="text" name="qualification" placeholder="Academic Qualification" value="${data.qualification || ''}" />
+      <input type="text" name="college" placeholder="College/School Name" value="${data.college || ''}" />
+      <input type="text" name="major" placeholder="Major Subject" value="${data.major || ''}" />
+      <input type="text" name="year" placeholder="Passed Year" value="${data.year || ''}" />
+      <input type="text" name="division" placeholder="Division" value="${data.division || ''}" />
+      <button type="button" class="remove-btn" onclick="removeEducationRow(this)">✖</button>
+    `;
+
+    container.appendChild(row);
+  }
+
+  function removeEducationRow(btn) {
+    btn.parentElement.remove();
+  }
+
+  document.getElementById('add-edu-btn').addEventListener('click', () => addEducationRow());
 
   document.getElementById('photo').addEventListener('change', function(event) {
     const file = event.target.files[0];
@@ -50,30 +116,33 @@ S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Divis
     }
   });
 
-  function buildEducationTable(eduText) {
-    if (!eduText.trim()) return '<p>No education details provided.</p>';
+  function buildEducationTableFromInputs() {
+    const rows = document.querySelectorAll('#education-rows .edu-row');
+    if (rows.length === 0) return '<p>No education details provided.</p>';
 
-    const lines = eduText.trim().split('\n');
-    if (lines.length < 2) return `<p>${eduText.replace(/\n/g, '<br>')}</p>`;
-
-    const headers = lines[0].split(',').map(h => h.trim());
-    const rows = lines.slice(1);
+    // Build headers (fixed)
+    const headers = ['S. No.', 'Academic Qualification', 'College/School Name', 'Major Subject', 'Passed Year', 'Division'];
 
     let table = '<table><thead><tr>';
-    headers.forEach(h => {
-      table += `<th>${h}</th>`;
-    });
+    headers.forEach(h => table += `<th>${h}</th>`);
     table += '</tr></thead><tbody>';
 
-    rows.forEach(row => {
-      const cols = row.split(',').map(c => c.trim());
-      table += '<tr>';
-      cols.forEach(col => {
-        table += `<td>${col}</td>`;
-      });
-      table += '</tr>';
-    });
-
+    for (const row of rows) {
+      const cells = [
+        row.querySelector('input[name="sno"]').value.trim(),
+        row.querySelector('input[name="qualification"]').value.trim(),
+        row.querySelector('input[name="college"]').value.trim(),
+        row.querySelector('input[name="major"]').value.trim(),
+        row.querySelector('input[name="year"]').value.trim(),
+        row.querySelector('input[name="division"]').value.trim()
+      ];
+      // Only add row if at least one field is not empty
+      if (cells.some(cell => cell !== '')) {
+        table += '<tr>';
+        cells.forEach(cell => table += `<td>${cell || '-'}</td>`);
+        table += '</tr>';
+      }
+    }
     table += '</tbody></table>';
     return table;
   }
@@ -84,7 +153,6 @@ S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Divis
     const phone = document.getElementById('phone').value || '1234567890';
     const address = document.getElementById('address').value || 'Your Address';
     const summary = document.getElementById('summary').value || 'Professional summary goes here.';
-    const education = document.getElementById('education').value || '';
     const experience = document.getElementById('experience').value || '';
     const skills = document.getElementById('skills').value || '';
     const certifications = document.getElementById('certifications').value || '';
@@ -93,7 +161,7 @@ S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Divis
       ? `<div id="photo-container"><img src="${photoDataURL}" alt="Profile Photo" /></div>`
       : '';
 
-    const educationTableHTML = buildEducationTable(education);
+    const educationTableHTML = buildEducationTableFromInputs();
 
     const preview = `
       <div id="cv">
@@ -166,12 +234,15 @@ S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Divis
     document.getElementById('phone').value = '9847546823, 9812753490';
     document.getElementById('address').value = 'Shuklaphanta 01, Kanchanpur';
     document.getElementById('summary').value = `To augment my career in a Government sector where dynamism is the key concern and have enough scope to utilize my qualification along with the proper use of my vision, positive attitude, interpersonal relationship, and communication skills in order to be a part of the best practices and ideas.`;
-    document.getElementById('education').value = `S. No,Academic Qualification,College/School Name,Major Subject,Passed Year,Division
-1,SLC,Baijnath H S School,Account & Economics,2069,First
-2,+2 (Management),Chandra Surya Bal H S School,Account & Marketing,2073,Second
-3,BBS (TU),Krishna Baijnath Multiple Campus,Finance,2080,Second
-4,MBS (TU),Janjyoti Multiple Campus,Finance,Running,-
-5,Diploma in Civil Engineering,Shuklaphanta Polytechnic Institute,-,Running,-`;
+
+    // Clear education rows and add demo rows
+    document.getElementById('education-rows').innerHTML = '';
+    addEducationRow({sno:'1', qualification:'SLC', college:'Baijnath H S School', major:'Account & Economics', year:'2069', division:'First'});
+    addEducationRow({sno:'2', qualification:'+2 (Management)', college:'Chandra Surya Bal H S School', major:'Account & Marketing', year:'2073', division:'Second'});
+    addEducationRow({sno:'3', qualification:'BBS (TU)', college:'Krishna Baijnath Multiple Campus', major:'Finance', year:'2080', division:'Second'});
+    addEducationRow({sno:'4', qualification:'MBS (TU)', college:'Janjyoti Multiple Campus', major:'Finance', year:'Running', division:'-'});
+    addEducationRow({sno:'5', qualification:'Diploma in Civil Engineering', college:'Shuklaphanta Polytechnic Institute', major:'-', year:'Running', division:'-'});
+
     document.getElementById('experience').value = `10 Months as a computer operator at Shuklaphanta 01 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).
 45 Days as a data collector at Shuklaphanta 01 office.
 2 Months as a computer operator at Shuklaphanta 04 office (Data entry for Bhumihin Dalit, Bhumihin Sukumbasi, and Ababasthith Basobasi).
