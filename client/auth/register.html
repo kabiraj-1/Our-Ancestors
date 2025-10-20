@@ -1,24 +1,36 @@
-<form id="registerForm">
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" required>
-    <span class="error-message" id="usernameError"></span>
-  </div>
-  
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required>
-    <span class="error-message" id="emailError"></span>
-  </div>
-  
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
-    <span class="error-message" id="passwordError"></span>
-  </div>
-  
-  <button type="submit" class="btn">Register</button>
-            <p>Already have an account? <a href="login.html">Login here</a></p>
-        </form>
-    </div>
-    <script src="../js/auth.js"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register — Kabiraj</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="auth-card">
+    <h1>Create account</h1>
+
+    <div id="message" class="message" aria-live="polite"></div>
+
+    <form id="registerForm" novalidate>
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" required />
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" required />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="new-password" required minlength="6" />
+
+      <label for="confirm_password">Confirm password</label>
+      <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required minlength="6" />
+
+      <button id="submitBtn" type="submit">Register</button>
+    </form>
+
+    <p class="muted">Already have an account? <a href="login.html">Login here</a></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
