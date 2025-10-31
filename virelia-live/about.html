@@ -1,1 +1,129 @@
-<html><body><h1>About Virelia</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Virelia</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation (same as index.html) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>Virelia</span>
+            </div>
+            
+            <div class="nav-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search posts, people, AI topics...">
+            </div>
+
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="about.html" class="nav-link active">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="nav-text">About</span>
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span class="nav-text">Notifications</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-text">Profile</span>
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="create-post-btn" onclick="window.location.href='post.html'">
+                    <i class="fas fa-plus"></i>
+                    <span>Create</span>
+                </button>
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <img src="assets/images/default-avatar.jpg" alt="User">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>About Virelia</h1>
+            <p class="page-subtitle">The AI-powered social platform for the future</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-section">
+                <h2>Our Vision</h2>
+                <p>Virelia is reimagining social media through the power of artificial intelligence. We believe that AI can enhance human connection, not replace it.</p>
+            </div>
+
+            <div class="about-section">
+                <h2>Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-robot"></i>
+                        <h3>AI Assistant</h3>
+                        <p>Get help with content creation, translation, and more from our built-in AI assistant.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Smart Connections</h3>
+                        <p>Connect with like-minded people through AI-powered recommendations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Safe Environment</h3>
+                        <p>AI-powered moderation keeps the platform safe and welcoming for everyone.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Technology</h2>
+                <p>Built with cutting-edge AI technologies including natural language processing, computer vision, and machine learning algorithms.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Virelia</h4>
+                <p>AI-powered social platform for the future of digital connection.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="about.html">About</a>
+                <a href="#">Features</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+                <a href="#">Email</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Virelia. All rights reserved. Built with AI 🤖</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
