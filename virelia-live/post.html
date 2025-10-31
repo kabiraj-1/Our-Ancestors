@@ -1,1 +1,1298 @@
-<html><body><h1>Post Composer</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - Virelia</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>Virelia</span>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html" class="login-btn">Back to Feed</a>
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        <img src="assets/images/default-avatar.jpg" alt="User">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container post-creation-container">
+        <div class="post-creation-header">
+            <h1><i class="fas fa-plus-circle"></i> Create New Post</h1>
+            <p>Share your thoughts with AI-powered assistance</p>
+        </div>
+
+        <div class="creation-layout">
+            <!-- Left Sidebar - AI Tools -->
+            <div class="creation-sidebar">
+                <div class="ai-tools-panel">
+                    <h3><i class="fas fa-robot"></i> AI Assistant</h3>
+                    <div class="ai-actions">
+                        <button class="ai-action-btn" onclick="aiEnhance('improve')">
+                            <i class="fas fa-magic"></i>
+                            Improve Writing
+                        </button>
+                        <button class="ai-action-btn" onclick="aiEnhance('hashtags')">
+                            <i class="fas fa-hashtag"></i>
+                            Add Hashtags
+                        </button>
+                        <button class="ai-action-btn" onclick="aiEnhance('translate')">
+                            <i class="fas fa-language"></i>
+                            Translate
+                        </button>
+                        <button class="ai-action-btn" onclick="aiEnhance('summary')">
+                            <i class="fas fa-file-alt"></i>
+                            Create Summary
+                        </button>
+                        <button class="ai-action-btn" onclick="aiEnhance('expand')">
+                            <i class="fas fa-expand"></i>
+                            Expand Ideas
+                        </button>
+                        <button class="ai-action-btn" onclick="aiEnhance('tone')">
+                            <i class="fas fa-adjust"></i>
+                            Adjust Tone
+                        </button>
+                    </div>
+
+                    <div class="ai-suggestions">
+                        <h4>AI Suggestions</h4>
+                        <div class="suggestion-item">
+                            <p>"Consider adding more specific examples about AI applications in daily life"</p>
+                            <button class="apply-suggestion" onclick="applySuggestion(this)">Apply</button>
+                        </div>
+                        <div class="suggestion-item">
+                            <p>"This would work well with trending hashtags: #AI #Tech #Future #Innovation"</p>
+                            <button class="apply-suggestion" onclick="applySuggestion(this)">Apply</button>
+                        </div>
+                        <div class="suggestion-item">
+                            <p>"Try starting with a question to engage your audience more effectively"</p>
+                            <button class="apply-suggestion" onclick="applySuggestion(this)">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-tips">
+                    <h4>Content Tips</h4>
+                    <div class="tip-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Keep posts between 100-500 characters for best engagement</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-image"></i>
+                        <span>Add relevant images or videos to increase visibility</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-hashtag"></i>
+                        <span>Use 3-5 relevant hashtags to reach wider audience</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Creation Area -->
+            <div class="creation-main">
+                <div class="creation-card">
+                    <div class="post-author">
+                        <img src="assets/images/default-avatar.jpg" alt="User" class="user-avatar">
+                        <div>
+                            <div class="user-name" id="postUserName">Loading...</div>
+                            <div class="post-visibility">
+                                <i class="fas fa-globe"></i>
+                                <span>Public</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="post-content-editor">
+                        <textarea id="postContent" placeholder="What's on your mind? Share your thoughts, ideas, or ask a question..." rows="6"></textarea>
+                        
+                        <div class="editor-tools">
+                            <button class="tool-btn" onclick="addEmoji()" title="Add Emoji">
+                                <i class="far fa-smile"></i>
+                            </button>
+                            <button class="tool-btn" onclick="addHashtag()" title="Add Hashtag">
+                                <i class="fas fa-hashtag"></i>
+                            </button>
+                            <button class="tool-btn" onclick="formatText('bold')" title="Bold">
+                                <i class="fas fa-bold"></i>
+                            </button>
+                            <button class="tool-btn" onclick="formatText('italic')" title="Italic">
+                                <i class="fas fa-italic"></i>
+                            </button>
+                            <button class="tool-btn" onclick="formatText('underline')" title="Underline">
+                                <i class="fas fa-underline"></i>
+                            </button>
+                            <div class="char-counter">
+                                <span id="charCount">0</span>/500
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media Preview -->
+                    <div class="media-preview" id="mediaPreview">
+                        <div class="media-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Add images, videos, or documents to your post</p>
+                            <div class="media-buttons">
+                                <button class="media-btn" onclick="addMedia('image')">
+                                    <i class="fas fa-image"></i>
+                                    Photo
+                                </button>
+                                <button class="media-btn" onclick="addMedia('video')">
+                                    <i class="fas fa-video"></i>
+                                    Video
+                                </button>
+                                <button class="media-btn" onclick="addMedia('poll')">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Poll
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Enhancement Preview -->
+                    <div class="ai-preview" id="aiPreview" style="display: none;">
+                        <div class="ai-preview-header">
+                            <i class="fas fa-robot"></i>
+                            <span>AI Enhanced Version</span>
+                            <button class="close-preview" onclick="closeAIPreview()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="ai-preview-content" id="aiPreviewContent"></div>
+                        <div class="ai-preview-actions">
+                            <button class="btn-secondary" onclick="closeAIPreview()">Keep Original</button>
+                            <button class="btn-primary" onclick="applyAIPreview()">Use This Version</button>
+                        </div>
+                    </div>
+
+                    <!-- Post Options -->
+                    <div class="post-options">
+                        <h4>Post Settings</h4>
+                        <div class="options-grid">
+                            <label class="option-item">
+                                <input type="checkbox" id="allowComments" checked>
+                                <span class="checkmark"></span>
+                                <span>Allow comments</span>
+                            </label>
+                            <label class="option-item">
+                                <input type="checkbox" id="enableTips">
+                                <span class="checkmark"></span>
+                                <span>Enable tips</span>
+                            </label>
+                            <label class="option-item">
+                                <input type="checkbox" id="aiAnalysis" checked>
+                                <span class="checkmark"></span>
+                                <span>AI content analysis</span>
+                            </label>
+                            <label class="option-item">
+                                <input type="checkbox" id="schedulePost">
+                                <span class="checkmark"></span>
+                                <span>Schedule post</span>
+                            </label>
+                        </div>
+
+                        <!-- Schedule Options (Hidden by default) -->
+                        <div class="schedule-options" id="scheduleOptions" style="display: none;">
+                            <div class="form-group">
+                                <label for="scheduleDate">Schedule Date & Time</label>
+                                <input type="datetime-local" id="scheduleDate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Creation Actions -->
+                    <div class="creation-actions">
+                        <div class="media-actions">
+                            <button class="action-btn" onclick="addMedia('image')">
+                                <i class="fas fa-image"></i>
+                                Add Image
+                            </button>
+                            <button class="action-btn" onclick="addMedia('video')">
+                                <i class="fas fa-video"></i>
+                                Add Video
+                            </button>
+                            <button class="action-btn" onclick="addMedia('poll')">
+                                <i class="fas fa-chart-bar"></i>
+                                Add Poll
+                            </button>
+                            <button class="action-btn" onclick="addMedia('document')">
+                                <i class="fas fa-file"></i>
+                                Add Document
+                            </button>
+                        </div>
+                        
+                        <div class="post-actions">
+                            <button class="save-draft-btn" onclick="saveDraft()">
+                                <i class="fas fa-save"></i>
+                                Save Draft
+                            </button>
+                            <button class="preview-btn" onclick="previewPost()">
+                                <i class="fas fa-eye"></i>
+                                Preview
+                            </button>
+                            <button class="publish-btn" onclick="publishPost()">
+                                <i class="fas fa-paper-plane"></i>
+                                Publish Post
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Preview -->
+                <div class="preview-card">
+                    <h4>Live Preview</h4>
+                    <div class="post-preview" id="postPreview">
+                        <div class="preview-post">
+                            <div class="post-header">
+                                <img src="assets/images/default-avatar.jpg" alt="User" class="user-avatar">
+                                <div class="post-user-info">
+                                    <div class="post-user-name" id="previewUserName">You</div>
+                                    <div class="post-user-handle">@yourusername</div>
+                                </div>
+                                <div class="post-time">Now</div>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-text" id="previewContent">Your post will appear here as you type...</div>
+                                <div class="post-media-preview" id="previewMedia"></div>
+                            </div>
+                            <div class="post-stats">
+                                <div class="post-stat">
+                                    <i class="fas fa-heart"></i>
+                                    <span>0</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-comment"></i>
+                                    <span>0</span>
+                                </div>
+                                <div class="post-stat">
+                                    <i class="fas fa-share"></i>
+                                    <span>0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/auth.js"></script>
+    <script src="js/feed.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!Auth.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load user data
+            const currentUser = Auth.getCurrentUser();
+            if (currentUser) {
+                document.getElementById('postUserName').textContent = currentUser.name;
+                document.getElementById('previewUserName').textContent = currentUser.name;
+            }
+
+            // Initialize character counter
+            const postContent = document.getElementById('postContent');
+            const charCount = document.getElementById('charCount');
+            
+            postContent.addEventListener('input', function() {
+                const count = this.value.length;
+                charCount.textContent = count;
+                
+                // Update preview
+                document.getElementById('previewContent').innerHTML = formatPreviewText(this.value);
+                
+                // Change color when approaching limit
+                if (count > 450) {
+                    charCount.style.color = '#ff4444';
+                } else if (count > 400) {
+                    charCount.style.color = '#ffb400';
+                } else {
+                    charCount.style.color = 'var(--text-muted)';
+                }
+            });
+
+            // Schedule post toggle
+            const scheduleCheckbox = document.getElementById('schedulePost');
+            const scheduleOptions = document.getElementById('scheduleOptions');
+            
+            scheduleCheckbox.addEventListener('change', function() {
+                scheduleOptions.style.display = this.checked ? 'block' : 'none';
+            });
+
+            // Set minimum datetime for scheduling to current time
+            const now = new Date();
+            const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            document.getElementById('scheduleDate').min = localDateTime;
+        });
+
+        function addEmoji() {
+            const textarea = document.getElementById('postContent');
+            const emojis = ['😊', '🚀', '🤖', '💡', '🎯', '🔥', '⭐', '💫'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            textarea.value += ` ${randomEmoji} `;
+            textarea.focus();
+            
+            // Trigger input event to update preview
+            textarea.dispatchEvent(new Event('input'));
+        }
+
+        function addHashtag() {
+            const textarea = document.getElementById('postContent');
+            textarea.value += ' #';
+            textarea.focus();
+        }
+
+        function formatText(type) {
+            const textarea = document.getElementById('postContent');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            
+            let formattedText = '';
+            let wrapper = '';
+            
+            switch(type) {
+                case 'bold':
+                    wrapper = '**';
+                    break;
+                case 'italic':
+                    wrapper = '*';
+                    break;
+                case 'underline':
+                    wrapper = '__';
+                    break;
+            }
+            
+            if (selectedText) {
+                formattedText = `${wrapper}${selectedText}${wrapper}`;
+            } else {
+                formattedText = `${wrapper}${wrapper}`;
+            }
+            
+            textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+            textarea.focus();
+            
+            // Update selection
+            textarea.setSelectionRange(
+                start + wrapper.length,
+                start + wrapper.length + (selectedText ? selectedText.length : 0)
+            );
+            
+            // Update preview
+            textarea.dispatchEvent(new Event('input'));
+        }
+
+        function formatPreviewText(text) {
+            // Simple markdown-like formatting for preview
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            text = text.replace(/__(.*?)__/g, '<u>$1</u>');
+            text = text.replace(/#(\w+)/g, '<span class="hashtag">#$1</span>');
+            text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+            
+            return text || 'Your post will appear here as you type...';
+        }
+
+        function aiEnhance(action) {
+            const textarea = document.getElementById('postContent');
+            const currentText = textarea.value;
+            
+            if (!currentText.trim() && action !== 'expand') {
+                alert('Please enter some text first to use AI enhancement');
+                return;
+            }
+
+            // Show loading state
+            const aiPreview = document.getElementById('aiPreview');
+            const aiPreviewContent = document.getElementById('aiPreviewContent');
+            
+            aiPreviewContent.innerHTML = `
+                <div class="ai-loading">
+                    <i class="fas fa-robot fa-spin"></i>
+                    <p>AI is enhancing your content...</p>
+                </div>
+            `;
+            aiPreview.style.display = 'block';
+
+            // Simulate AI processing
+            setTimeout(() => {
+                const enhancements = {
+                    improve: `I've enhanced your writing to make it more engaging and professional while maintaining your original voice and message:\n\n"${currentText}"\n\nConsider adding a call-to-action to increase engagement with your audience.`,
+                    
+                    hashtags: `${currentText}\n\n#AI #Technology #Innovation #FutureTech #DigitalTransformation`,
+                    
+                    translate: `[Translation Feature]\n\nYour text would be translated to the selected language here. This helps reach global audiences and connect with international communities.`,
+                    
+                    summary: `AI Summary:\n\n"${currentText.substring(0, 100)}..."\n\nKey points: This post discusses interesting developments in technology and AI applications.`,
+                    
+                    expand: `Based on your interests, here's an engaging post idea:\n\n"Have you ever wondered how AI will transform social media in the next 5 years? From personalized content curation to AI-generated creative assets, the future looks exciting! What AI feature would you most like to see implemented? 🤖\n\n#AI #Future #SocialMedia #Innovation"`,
+                    
+                    tone: `I've adjusted the tone to be more ${['professional', 'casual', 'enthusiastic', 'formal'][Math.floor(Math.random() * 4)]}:\n\n"${currentText}"\n\nThe revised version maintains your core message while adapting the language to better suit your intended audience.`
+                };
+
+                aiPreviewContent.innerHTML = `
+                    <div class="enhanced-content">
+                        <p>${enhancements[action].replace(/\n/g, '<br>')}</p>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        function applySuggestion(button) {
+            const suggestion = button.parentElement.querySelector('p').textContent;
+            const textarea = document.getElementById('postContent');
+            
+            if (textarea.value) {
+                textarea.value += '\n\n' + suggestion;
+            } else {
+                textarea.value = suggestion;
+            }
+            
+            button.textContent = 'Applied!';
+            button.disabled = true;
+            button.style.background = 'var(--success-color)';
+            
+            // Update preview
+            textarea.dispatchEvent(new Event('input'));
+        }
+
+        function closeAIPreview() {
+            document.getElementById('aiPreview').style.display = 'none';
+        }
+
+        function applyAIPreview() {
+            const aiContent = document.getElementById('aiPreviewContent').textContent;
+            const textarea = document.getElementById('postContent');
+            
+            textarea.value = aiContent;
+            closeAIPreview();
+            
+            // Update preview
+            textarea.dispatchEvent(new Event('input'));
+        }
+
+        function addMedia(type) {
+            const preview = document.getElementById('mediaPreview');
+            const previewMedia = document.getElementById('previewMedia');
+            
+            const mediaHTML = {
+                image: `
+                    <div class="media-added">
+                        <div class="media-thumbnail">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="media-info">
+                            <span>image.jpg</span>
+                            <small>2.4 MB</small>
+                        </div>
+                        <button class="remove-media" onclick="removeMedia()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `,
+                video: `
+                    <div class="media-added">
+                        <div class="media-thumbnail video">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="media-info">
+                            <span>video.mp4</span>
+                            <small>15.2 MB</small>
+                        </div>
+                        <button class="remove-media" onclick="removeMedia()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `,
+                poll: `
+                    <div class="poll-preview">
+                        <h5>Poll: What's your favorite AI feature?</h5>
+                        <div class="poll-options">
+                            <div class="poll-option">
+                                <div class="option-text">Content Generation</div>
+                            </div>
+                            <div class="poll-option">
+                                <div class="option-text">Image Recognition</div>
+                            </div>
+                            <div class="poll-option">
+                                <div class="option-text">Language Translation</div>
+                            </div>
+                        </div>
+                        <button class="remove-media" onclick="removeMedia()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `
+            };
+
+            preview.innerHTML = mediaHTML[type];
+            previewMedia.innerHTML = type === 'poll' ? mediaHTML[type] : `
+                <div class="post-media">
+                    <div class="media-placeholder-preview ${type}">
+                        <i class="fas fa-${type === 'image' ? 'image' : 'video'}"></i>
+                        <span>${type.charAt(0).toUpperCase() + type.slice(1)} attached</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function removeMedia() {
+            const preview = document.getElementById('mediaPreview');
+            const previewMedia = document.getElementById('previewMedia');
+            
+            preview.innerHTML = `
+                <div class="media-placeholder">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Add images, videos, or documents to your post</p>
+                    <div class="media-buttons">
+                        <button class="media-btn" onclick="addMedia('image')">
+                            <i class="fas fa-image"></i>
+                            Photo
+                        </button>
+                        <button class="media-btn" onclick="addMedia('video')">
+                            <i class="fas fa-video"></i>
+                            Video
+                        </button>
+                        <button class="media-btn" onclick="addMedia('poll')">
+                            <i class="fas fa-chart-bar"></i>
+                            Poll
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            previewMedia.innerHTML = '';
+        }
+
+        function saveDraft() {
+            const content = document.getElementById('postContent').value;
+            if (!content.trim()) {
+                alert('Please add some content to save as draft');
+                return;
+            }
+            
+            // In a real app, this would save to local storage or send to backend
+            localStorage.setItem('virelia_draft', content);
+            showNotification('Draft saved successfully!', 'success');
+        }
+
+        function previewPost() {
+            const content = document.getElementById('postContent').value;
+            if (!content.trim()) {
+                alert('Please add some content to preview');
+                return;
+            }
+            
+            // Scroll to preview section
+            document.getElementById('postPreview').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            showNotification('Scroll down to see your post preview', 'info');
+        }
+
+        async function publishPost() {
+            const content = document.getElementById('postContent').value;
+            if (!content.trim()) {
+                alert('Please add some content to your post!');
+                return;
+            }
+
+            try {
+                const result = await Feed.createPost(content);
+                
+                if (result.success) {
+                    showNotification('Post published successfully!', 'success');
+                    
+                    // Clear form
+                    document.getElementById('postContent').value = '';
+                    removeMedia();
+                    document.getElementById('charCount').textContent = '0';
+                    document.getElementById('previewContent').textContent = 'Your post will appear here as you type...';
+                    
+                    // Redirect to feed after short delay
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                console.error('Publish failed:', error);
+                showNotification('Failed to publish post: ' + error.message, 'error');
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    </script>
+
+    <style>
+        .post-creation-container {
+            margin-top: 90px;
+            max-width: 1200px;
+        }
+
+        .post-creation-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .post-creation-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--info-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .post-creation-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .creation-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .creation-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .ai-tools-panel {
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .ai-tools-panel h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .ai-action-btn:hover {
+            background: var(--background-hover);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .ai-suggestions h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .suggestion-item {
+            background: var(--background-hover);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .suggestion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .suggestion-item p {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .apply-suggestion {
+            width: 100%;
+            padding: 8px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            color: var(--background-dark);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .apply-suggestion:hover {
+            background: var(--primary-light);
+        }
+
+        .content-tips {
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .content-tips h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tip-item:last-child {
+            border-bottom: none;
+        }
+
+        .tip-item i {
+            color: var(--primary-color);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .tip-item span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .creation-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .creation-card {
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .post-visibility {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .post-visibility:hover {
+            background: var(--background-hover);
+        }
+
+        .post-content-editor {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-content-editor textarea {
+            width: 100%;
+            background: var(--background-hover);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.5;
+            transition: var(--transition);
+            min-height: 120px;
+        }
+
+        .post-content-editor textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .editor-tools {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .tool-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tool-btn:hover {
+            background: var(--background-hover);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .char-counter {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .media-preview {
+            margin-bottom: 1.5rem;
+            min-height: 100px;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .media-preview:hover {
+            border-color: var(--primary-color);
+        }
+
+        .media-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem;
+        }
+
+        .media-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .media-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .media-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .media-btn:hover {
+            background: var(--background-hover);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .media-added {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--background-hover);
+            border-radius: var(--border-radius);
+            width: 100%;
+        }
+
+        .media-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--border-radius-sm);
+            background: var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+        }
+
+        .media-thumbnail.video {
+            background: linear-gradient(135deg, #ff4444, #ff8800);
+            color: white;
+        }
+
+        .media-info {
+            flex: 1;
+        }
+
+        .media-info span {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .media-info small {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .remove-media {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .remove-media:hover {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .poll-preview {
+            padding: 1rem;
+            background: var(--background-hover);
+            border-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .poll-preview h5 {
+            margin: 0 0 1rem 0;
+            color: var(--text-primary);
+        }
+
+        .poll-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .poll-option {
+            padding: 0.75rem;
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .option-text {
+            color: var(--text-secondary);
+        }
+
+        .ai-preview {
+            background: var(--background-hover);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .ai-preview-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-bottom: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .close-preview {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .close-preview:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .ai-preview-content {
+            padding: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .ai-loading {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem;
+        }
+
+        .ai-loading i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .enhanced-content {
+            line-height: 1.5;
+        }
+
+        .ai-preview-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .post-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-options h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .schedule-options {
+            padding: 1rem;
+            background: var(--background-hover);
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+        }
+
+        .creation-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .media-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .save-draft-btn, .preview-btn, .publish-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .save-draft-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-btn {
+            background: var(--info-color);
+            color: white;
+        }
+
+        .publish-btn {
+            background: var(--primary-color);
+            color: var(--background-dark);
+        }
+
+        .save-draft-btn:hover, .preview-btn:hover, .publish-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .save-draft-btn:hover {
+            background: var(--background-hover);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .preview-btn:hover {
+            background: #0088cc;
+        }
+
+        .publish-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .preview-card {
+            background: var(--background-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .preview-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .post-preview {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .preview-post {
+            padding: 1.5rem;
+        }
+
+        .post-media-preview {
+            margin-top: 1rem;
+        }
+
+        .media-placeholder-preview {
+            height: 200px;
+            background: var(--background-hover);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        .media-placeholder-preview i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hashtag {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 968px) {
+            .creation-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .creation-sidebar {
+                order: 2;
+            }
+            
+            .creation-main {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .creation-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .media-actions, .post-actions {
+                justify-content: center;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>
