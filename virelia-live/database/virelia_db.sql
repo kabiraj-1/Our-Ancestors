@@ -1,0 +1,1 @@
+-- SQL dummy schema
