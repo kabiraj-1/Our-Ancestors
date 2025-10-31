@@ -1,0 +1,1 @@
+<?php // Posts API ?>
