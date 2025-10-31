@@ -1,1 +1,368 @@
-<!DOCTYPE html><html><head><title>Virelia Live</title></head><body><h1>Homepage</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virelia - AI Social Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>Virelia</span>
+            </div>
+            
+            <div class="nav-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search posts, people, AI topics...">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="#" class="nav-link" data-page="explore">
+                    <i class="fas fa-compass"></i>
+                    <span class="nav-text">Explore</span>
+                </a>
+                <a href="#" class="nav-link" data-page="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="nav-text">Notifications</span>
+                    <span class="notification-badge">3</span>
+                </a>
+                <a href="profile.html" class="nav-link" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span class="nav-text">Profile</span>
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="create-post-btn" onclick="window.location.href='post.html'">
+                    <i class="fas fa-plus"></i>
+                    <span>Create</span>
+                </button>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="userAvatar">
+                        <img src="assets/images/default-avatar.jpg" alt="User" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMwMGZmODgiLz4KPHBhdGggZD0iTTIwIDIyQzIzLjMxMzcgMjIgMjYgMTkuMzEzNyAyNiAxNkMyNiAxMi42ODYzIDIzLjMxMzcgMTAgMjAgMTBDMTYuNjg2MyAxMCAxNCAxMi42ODYzIDE0IDE2QzE0IDE5LjMxMzcgMTYuNjg2MyAyMiAyMCAyMloiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTTI4IDMwQzI4IDI2LjY4NjMgMjQuNDE4MyAyNCAyMCAyNEMxNS41ODE3IDI0IDEyIDI2LjY4NjMgMTIgMzBDMTIgMzMuMzEzNyAxNS41ODE3IDM2IDIwIDM2QzI0LjQxODMgMzYgMjggMzMuMzEzNyAyOCAzMFoiIGZpbGw9IiMwMDAwMDAiLz4KPC9zdmc+'">
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item text-danger" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="user-info">
+                <img src="assets/images/default-avatar.jpg" alt="User" class="user-avatar">
+                <div class="user-details">
+                    <div class="user-name" id="mobileUserName">Guest User</div>
+                    <div class="user-handle">@guest</div>
+                </div>
+            </div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-items">
+            <a href="index.html" class="mobile-menu-item active">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+            <a href="#" class="mobile-menu-item">
+                <i class="fas fa-compass"></i>
+                Explore
+            </a>
+            <a href="#" class="mobile-menu-item">
+                <i class="fas fa-bell"></i>
+                Notifications
+                <span class="badge">3</span>
+            </a>
+            <a href="profile.html" class="mobile-menu-item">
+                <i class="fas fa-user"></i>
+                Profile
+            </a>
+            <a href="post.html" class="mobile-menu-item">
+                <i class="fas fa-plus"></i>
+                Create Post
+            </a>
+            <div class="mobile-menu-divider"></div>
+            <a href="#" class="mobile-menu-item">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+            <a href="#" class="mobile-menu-item" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar left-sidebar">
+            <div class="user-card">
+                <div class="user-avatar-large">
+                    <img src="assets/images/default-avatar.jpg" alt="User" id="sidebarUserAvatar">
+                </div>
+                <h3 id="sidebarUserName">Welcome to Virelia</h3>
+                <p>Connect with AI-powered social experience</p>
+                <div class="user-stats">
+                    <div class="stat">
+                        <strong id="postCount">0</strong>
+                        <span>Posts</span>
+                    </div>
+                    <div class="stat">
+                        <strong id="followerCount">0</strong>
+                        <span>Followers</span>
+                    </div>
+                    <div class="stat">
+                        <strong id="followingCount">0</strong>
+                        <span>Following</span>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="window.location.href='register.html'">
+                    Join Virelia
+                </button>
+            </div>
+
+            <div class="trending-topics">
+                <h4>Trending Topics</h4>
+                <div class="topic-list">
+                    <a href="#" class="topic">#AIRevolution</a>
+                    <a href="#" class="topic">#MachineLearning</a>
+                    <a href="#" class="topic">#TechNews</a>
+                    <a href="#" class="topic">#FutureTech</a>
+                    <a href="#" class="topic">#DigitalTransformation</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Feed -->
+        <main class="feed">
+            <!-- Create Post Card -->
+            <div class="create-post-card">
+                <div class="create-post-header">
+                    <img src="assets/images/default-avatar.jpg" alt="User" class="user-avatar">
+                    <input type="text" placeholder="What's on your mind?" onclick="window.location.href='post.html'">
+                </div>
+                <div class="create-post-actions">
+                    <button class="action-btn" onclick="window.location.href='post.html?type=photo'">
+                        <i class="fas fa-image" style="color: #45bd62;"></i>
+                        Photo
+                    </button>
+                    <button class="action-btn" onclick="window.location.href='post.html?type=video'">
+                        <i class="fas fa-video" style="color: #f5533d;"></i>
+                        Video
+                    </button>
+                    <button class="action-btn" onclick="window.location.href='post.html?type=poll'">
+                        <i class="fas fa-chart-bar" style="color: #ffb400;"></i>
+                        Poll
+                    </button>
+                    <button class="action-btn" onclick="window.location.href='post.html?type=ai'">
+                        <i class="fas fa-robot" style="color: #00ff88;"></i>
+                        AI Assist
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feed Filters -->
+            <div class="feed-filters">
+                <button class="filter-btn active" data-filter="all">For You</button>
+                <button class="filter-btn" data-filter="following">Following</button>
+                <button class="filter-btn" data-filter="trending">Trending</button>
+                <button class="filter-btn" data-filter="ai">AI Generated</button>
+            </div>
+
+            <!-- Posts Container -->
+            <div class="posts-container" id="postsContainer">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading posts...</span>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container">
+                <button class="load-more-btn" id="loadMoreBtn">
+                    <i class="fas fa-redo"></i>
+                    Load More Posts
+                </button>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar right-sidebar">
+            <!-- AI Chat Widget -->
+            <div class="ai-chat-widget">
+                <div class="ai-chat-header">
+                    <div class="ai-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="ai-info">
+                        <h4>Virelia AI</h4>
+                        <span class="status online">Online</span>
+                    </div>
+                    <button class="ai-settings-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+
+                <div class="ai-chat-messages" id="aiChatMessages">
+                    <div class="message ai-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I'm your Virelia AI assistant. I can help you create content, summarize posts, and answer questions. How can I assist you today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-quick-actions">
+                    <button class="quick-action" onclick="sendAIMessage('Help me write a post about AI trends')">
+                        <i class="fas fa-pen"></i>
+                        Write Post
+                    </button>
+                    <button class="quick-action" onclick="sendAIMessage('Summarize current trends')">
+                        <i class="fas fa-chart-line"></i>
+                        Trends
+                    </button>
+                    <button class="quick-action" onclick="sendAIMessage('Translate this to Spanish')">
+                        <i class="fas fa-language"></i>
+                        Translate
+                    </button>
+                </div>
+
+                <div class="ai-chat-input">
+                    <input type="text" id="aiChatInput" placeholder="Ask Virelia AI...">
+                    <button class="send-btn" onclick="sendAIMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Suggested Users -->
+            <div class="suggested-users">
+                <h4>Suggested Creators</h4>
+                <div class="user-list">
+                    <div class="suggested-user">
+                        <img src="assets/images/user1.jpg" alt="User" class="user-avatar">
+                        <div class="user-info">
+                            <div class="user-name">AI Explorer</div>
+                            <div class="user-handle">@aiexplorer</div>
+                        </div>
+                        <button class="follow-btn">Follow</button>
+                    </div>
+                    <div class="suggested-user">
+                        <img src="assets/images/user2.jpg" alt="User" class="user-avatar">
+                        <div class="user-info">
+                            <div class="user-name">Tech Vision</div>
+                            <div class="user-handle">@techvision</div>
+                        </div>
+                        <button class="follow-btn">Follow</button>
+                    </div>
+                    <div class="suggested-user">
+                        <img src="assets/images/user3.jpg" alt="User" class="user-avatar">
+                        <div class="user-info">
+                            <div class="user-name">Future Builder</div>
+                            <div class="user-handle">@futurebuilder</div>
+                        </div>
+                        <button class="follow-btn">Follow</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Platform Stats -->
+            <div class="platform-stats">
+                <h4>Virelia Stats</h4>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalUsers">10.2K</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalPosts">25.7K</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="onlineUsers">1.3K</div>
+                        <div class="stat-label">Online</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Virelia</h4>
+                <p>AI-powered social platform for the future of digital connection.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="about.html">About</a>
+                <a href="#">Features</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+                <a href="#">Email</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Virelia. All rights reserved. Built with AI 🤖</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/feed.js"></script>
+    <script src="js/chat.js"></script>
+    
+    <!-- Initialize App -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadFeed();
+            updatePlatformStats();
+        });
+    </script>
+</body>
+</html>
